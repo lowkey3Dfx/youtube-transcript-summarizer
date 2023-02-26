@@ -1,18 +1,36 @@
-import './globals.css'
+import Head from 'next/head';
+import { ReactNode } from 'react';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+type LayoutProps = {
+  children: ReactNode;
+  pageTitle: string;
+};
+
+const Layout = ({ children, pageTitle }: LayoutProps) => {
   return (
-    <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
-      <body>{children}</body>
-    </html>
-  )
-}
+    <div>
+      <Head>
+        <title>{pageTitle}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <body>
+        <nav>
+          <ul>
+            <li>
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/transcript">Transcript</a>
+            </li>
+          </ul>
+        </nav>
+      </body>
+      {children}
+      <footer>
+        <p>&copy; 2023 Youtube Transcript Summarizer</p>
+      </footer>
+    </div>
+  );
+};
+
+export default Layout;

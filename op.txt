@@ -1,0 +1,279 @@
+[Music]
+one of the big predictions people are
+making in 2018 is that graph QL will
+make restful api is obsolete in today's
+episode we'll learn how to build a graph
+QL API from scratch using Apollo server
+2.0 and node KS if you're new here make
+sure to LIKE and subscribe and I want to
+send a huge thank you out to Arjun
+yellow man celli he's the mastermind
+behind the code in this video and if you
+need a talented developer in Denver he
+comes highly recommended so let's kick
+things off by talking about graph QL
+from a very high level imagine you have
+an angular app that communicates with a
+bunch of different back-end data sources
+traditionally you would do this with
+either a REST API or a client-side SDK
+when you hit a restful endpoint it's the
+server that determines the shape of the
+data that gets sent back to the client
+what happens is that you'll hit a rest
+one point and it will respond with a
+bunch of data that you don't know
+anything about and that you don't need
+graph QL is a query language that solves
+this problem by sitting in between your
+back-end and front-end it allows the
+server to define exactly what data is
+available and it allows the client to
+only request the data that it actually
+needs to provide the user experience
+what's really cool is that you can use
+it with any back-end data source and
+this video will use fire store and set
+up a node J a server with Apollo to
+deliver the API this video is a two part
+series in this first installment we will
+set up the back-end API and in the
+second part we will use angular to
+consume this API from the front end when
+you set up a graph QL API it provides
+this really nice playground that you can
+use to start sending requests and this
+just works out of the box what we're
+going to do in the code is set up
+interfaces that describe the data that's
+available on the server this is super
+powerful because the client can probe
+the backend in advance to find out what
+types are available and how they can be
+requested this means you get amazing
+developer tooling even on a foreign API
+because you know exactly what's
+available and how it can be requested
+you can see here I requested all the
+interface names and the ones we're
+interested in our tweet and user let's
+say we want to request all of the tweets
+from our database but we only want the
+ID and the number of likes all we need
+to do is type out the shape of our data
+on the left and then send it to the
+server on the right and it will respond
+with J
+Sahn in the exact shape that we
+requested and this is live data you're
+looking at that lives in the firestore
+database but it can come from any data
+source or even multiple data sources at
+the same time the tweets also have a
+text property so if we want to include
+text in our request we just add that to
+the interface and it returns the text
+from the database this can be extremely
+useful if you have relational data that
+you need to join from multiple sources
+which is commonly the case with no
+sequel databases let's imagine we want
+to query a user plus all of that users
+tweets which live in a completely
+different collection and firestore you
+can pass arguments to graph QL which in
+this case will be the user ID then we'll
+get autocomplete for all the properties
+available so if we want to just pull the
+screen name we can do that easily but
+tweets can also belong to a user and
+it's a property on the user interface so
+we can apply it here and then request
+some data about the tweets that we want
+to return back that will only belong to
+this user so that's really only the tip
+of the iceberg with graph QL but the
+main takeaway is that it allows you to
+request data in exactly the way it
+should be consumed in the front end
+which is a big difference from rest
+api's now we're ready to write some code
+but first I have some really good news
+just a couple days ago nodejs became
+available on the App Engine standard
+runtime which means you can use it for
+free and it's super easy to integrate
+into a firebase project I first want to
+point out that you can find the full
+setup instructions on the github repo
+for this video but I do want to point
+out a few the more important parts I'll
+be writing this in typescript but the
+code is fully compatible with vanilla
+Jas if you prefer that the first thing I
+want to do is install a palo server 2.0
+as well as graph QL then to make things
+fully compatible with typescript there's
+a few extra things we added to the TS
+config so make sure to grab the TS
+config from the repo from here we can
+install firebase admin and then we'll
+need to go to the firebase console and
+download our service account you can
+find it under settings and then go to
+service accounts and then download it
+into the Roo the project as service
+account JSON I have set up an indexed es
+file and in this file I'm first going to
+import a few dependencies starting with
+firebase admin and then a reference to
+our service account and then we'll
+initialize the app with that service
+account
+that gives us full access to the data
+and firestore from here we'll import
+Apollo server and graph QL will also
+bring in Apollo error and validation so
+we can handle errors gracefully on the
+server there are two main pieces to a
+graph QL API the first one is your graph
+QL type definitions which is where you
+write actual graph QL code to define the
+shape of the data that's available on
+the server the second half of this
+puzzle are your resolvers this is where
+you tell graph QL how to return the
+actual data to the client through the
+API so first let's start by defining our
+type definitions you can define an
+object by calling type with the name of
+the object and then there's a number of
+built-in data types for example ID is
+just a string that is supposed to be
+unique then you have common data types
+that you would expect like string
+integer and things like that when you
+put brackets around something that means
+that it should return an array of that
+interface you might also notice the
+exclamation point after each property
+that just means the API will always
+promise to return that data type it
+won't return a null value so a user can
+have an array of tweets which we've
+modeled here but a tweet can only have
+one user so we'll set some properties
+for our tweet object but this time we'll
+type the user to the user schema that we
+just defined in the previous step but if
+you look in the database you'll notice
+that our actual user data doesn't have
+any tweets objects nested on it tweets
+are their own isolated collection that
+are completely decoupled from users
+that's important to make note of because
+in the next step we'll use resolvers to
+combine all this stuff together now the
+last thing we need in our schema is the
+query which can be thought of as like
+the main entry point into your API in
+this case we can enter the API through
+tweets or we can enter it through the
+user with their user ID at this point
+everything that's available to be
+fetched on our API is well-defined but
+we still need a method to actually
+retrieve this data for that we'll define
+an object called resolvers where each
+property in this object matches one of
+our interfaces data that already exists
+on the firestore document can be
+inferred automatically but remember we
+don't have any tweets available on the
+actual user itself so we need to write a
+method that can resolve that data in
+firebase this is really easy because we
+can use the admin database called the
+tweets collection
+and then just query where the user ID
+equals the user ID on this object then
+we call get to return that as a promise
+and that'll be a snapshot and the final
+step is to just map that snapshot down
+to its actual raw data object if this
+code fails at runtime we want to throw
+an error to handle it gracefully which
+we can do inside of the try catch block
+by throwing an Apollo error tweets will
+follow a very similar process in this
+case we just need to return a single
+firestore document because every tweet
+has an Associated user ID but we want to
+be able to return additional data if the
+user requests it on their graph QL query
+the last resolver that we need is the
+query this defines how we get the data
+for the route documents being that tweet
+and the user tweets are a collection so
+we can simply return those as a
+firestore collection so what we're
+looking at here is just firebase 101
+we're pointing to a collection and then
+retrieving it as an array of documents
+the user query is also very similar but
+the main difference is we're passing an
+argument to the method being the user ID
+we can access the argument data as the
+second argument in this method so now we
+can retrieve our user based on the user
+ID that's passed in by whoever is making
+the graph QL query it's very possible
+that they will pass in an ID that
+doesn't exist so we want to handle that
+with a validation error if you remember
+earlier we used exclamation points to
+only return valid types if that user
+doesn't exist we need to return a
+validation error instead okay just a
+couple of lines of code left
+we just need to combine these two pieces
+together by passing them to an Apollo
+server instance the Apollo server feels
+just like an Express Jas server we just
+call listen on it and we're good to go
+all you need to do at this point is
+compile your typescript code which you
+can do with the TSC command or there's a
+command in the main repo when you run
+the script you can pull up localhost and
+get the playground to start sending
+queries to your API but we're not just
+going to stop here there's this really
+cool thing called Apollo engine that can
+handle things like caching and tracing
+and it does it all in a really nice UI
+you'll first need to register for an
+Apollo Engine API key then all you need
+to do is add it to your Apollo server
+config and you're good to go
+this gives you access to a dashboard
+where you can monitor all the queries to
+see the exact latency of each one and
+also inspect errors in real time and
+let's also go ahead and deploy our app
+to a production server assuming you have
+the Google Cloud command-line tools
+installed all you have to do is create
+an app damo file with the nodejs 8
+runtime in it run g-cloud app deploy and
+your graph QL api is now available for
+the world to use I'm gonna go ahead and
+wrap things up there if this video
+helped you please like and subscribe and
+stay tuned for the second installment
+where we build out the front-end and
+angular with the Apolo angular library
+and if you want to take things to the
+next level consider becoming a pro
+member at angular firebase com thanks
+for watching and I'll talk to you soon
