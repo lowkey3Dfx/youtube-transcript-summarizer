@@ -1,6 +1,6 @@
 import GetVideo from './transcript';
 
-const fs = require('fs');
+const fs = require('node:fs');
 
 export default async function TranscriptPage() {
   const videoUrl = 'https://www.youtube.com/watch?v=8D9XnnjFGMs';
