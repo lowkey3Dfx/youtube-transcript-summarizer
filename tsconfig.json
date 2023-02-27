@@ -29,9 +29,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/transcript/page.js",
+    "app/transcript/page.tsx",
     "app/transcript/transcript.js",
-    "app/transcript/page.js"
-  ],
+    "app/transcript/page.tsx"
+, "app/transcript/error.js"  ],
   "exclude": ["node_modules"]
 }

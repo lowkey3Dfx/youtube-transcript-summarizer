@@ -1,18 +1,25 @@
 from youtube_transcript_api import YouTubeTranscriptApi
+import os
 
 videoUrl = 'https://www.youtube.com/watch?v=8D9XnnjFGMs';
 videoId = videoUrl.split('v=')[1];
-
 # Captures output of subtitles
 outls = []
 
-tx = YouTubeTranscriptApi.get_transcript('8D9XnnjFGMs', languages=['en', 'de'])
+output_dir = "app/getTranscript"
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+tx = YouTubeTranscriptApi.get_transcript(videoId, languages=['en', 'de'])
 for i in tx:
   outtxt = (i['text'])
   outls.append(outtxt)
 
-  with open('op.txt', 'a') as opf:
+
+
+  with open(os.path.join(output_dir, 'op.txt'), 'a') as opf:
     opf.write(outtxt + "\n")
+
 
     # Start NLP stuff?
 

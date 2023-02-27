@@ -1,6 +1,3 @@
-import Image from 'next/image';
-import YoutubeTranscript from 'youtube-transcript';
-
 export default async function TranscriptPage() {
   const videoUrl = 'https://www.youtube.com/watch?v=8D9XnnjFGMs';
   const videoId = videoUrl.split('v=')[1];
