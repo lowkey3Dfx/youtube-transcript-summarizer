@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 export default async function TranscriptPage() {
   const videoUrl = 'https://www.youtube.com/watch?v=8D9XnnjFGMs';
   const videoId = videoUrl.split('v=')[1];
@@ -15,6 +17,10 @@ export default async function TranscriptPage() {
   const channelId = video.channelId;
   const channelTitle = video.channelTitle;
 
+  // use 'readFileSync' method of the 'fs' module to read the file and return its contents as sting
+  const transcriptPath = 'app/getTranscript/op.txt';
+  const transcriptContent = fs.readFileSync(transcriptPath, 'utf8');
+
   return (
     <div>
       <h1>Transcript Page</h1>
@@ -29,6 +35,7 @@ export default async function TranscriptPage() {
         height={480}
         width={640}
       />
+      <p>{transcriptContent}</p>
     </div>
   );
 }
