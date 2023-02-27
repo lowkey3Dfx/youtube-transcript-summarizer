@@ -1,8 +1,13 @@
+import GetVideo from './transcript';
+
 const fs = require('fs');
 
 export default async function TranscriptPage() {
   const videoUrl = 'https://www.youtube.com/watch?v=8D9XnnjFGMs';
   const videoId = videoUrl.split('v=')[1];
+  console.log(
+    `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=snippet&key=${process.env.API_KEY}`,
+  );
 
   // fetch youtube data with API
   const data = await fetch(
@@ -10,12 +15,12 @@ export default async function TranscriptPage() {
   );
 
   const res = await data.json();
-  const video = res.items[0].snippet;
-  const videoTitle = video.title;
-  const videoDescription = video.description;
-  const thumbnail = video.thumbnails.standard.url;
-  const channelId = video.channelId;
-  const channelTitle = video.channelTitle;
+  const videoRes = res.items[0].snippet;
+  const videoTitle = videoRes.title;
+  const videoDescription = videoRes.description;
+  const thumbnail = videoRes.thumbnails.standard.url;
+  const channelId = videoRes.channelId;
+  const channelTitle = videoRes.channelTitle;
 
   // use 'readFileSync' method of the 'fs' module to read the file and return its contents as sting
   const transcriptPath = 'app/getTranscript/op.txt';
@@ -24,6 +29,7 @@ export default async function TranscriptPage() {
   return (
     <div>
       <h1>Transcript Page</h1>
+      <GetVideo />
       <p>{videoTitle}</p>
       <p>Channel: {channelTitle}</p>
 

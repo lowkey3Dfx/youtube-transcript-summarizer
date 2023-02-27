@@ -30,8 +30,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/transcript/page.tsx",
-    "app/transcript/transcript.js",
-    "app/transcript/page.tsx"
-, "app/transcript/error.js"  ],
+    "app/transcript/transcript.tsx",
+    "app/transcript/page.tsx",
+    "app/transcript/error.js"
+  ],
   "exclude": ["node_modules"]
 }
