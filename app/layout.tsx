@@ -1,36 +1,38 @@
-import Head from 'next/head';
+import Link from 'next/link';
 import { ReactNode } from 'react';
+
+export const metadata = {
+  title: {
+    default: 'animals4everyone',
+    template: '%s | animals4everyone',
+  },
+  icons: {
+    shortcut: '/favicon.ico',
+  },
+};
 
 type LayoutProps = {
   children: ReactNode;
-  pageTitle: string;
 };
 
-const Layout = ({ children, pageTitle }: LayoutProps) => {
+export default function RootLayout({ children }: LayoutProps) {
   return (
-    <div>
-      <Head>
-        <title>{pageTitle}</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+    <html lang="en">
+      <head />
       <body>
-        <nav>
-          <ul>
-            <li>
-              <a href="/">Home</a>
-            </li>
-            <li>
-              <a href="/transcript">Transcript</a>
-            </li>
-          </ul>
-        </nav>
+        <header>
+          <nav>
+            <div>
+              <Link href="/">Home</Link>
+              <Link href="/transcript">Transcript</Link>
+            </div>
+          </nav>
+        </header>
+        {children}
+        <footer>
+          <p>&copy; 2023 Youtube Transcript Summarizer</p>
+        </footer>
       </body>
-      {children}
-      <footer>
-        <p>&copy; 2023 Youtube Transcript Summarizer</p>
-      </footer>
-    </div>
+    </html>
   );
-};
-
-export default Layout;
+}
