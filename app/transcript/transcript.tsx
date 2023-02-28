@@ -1,9 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import YouTube from 'react-youtube';
 
-export default function GetVideo() {
+type Props = {
+  children: ReactNode;
+};
+
+export default function GetVideo({ children }: Props) {
   const [input, setInput] = useState('');
   const [url, setUrl] = useState('');
   const [updateUrl, setUpdateUrl] = useState(url);
@@ -22,6 +26,7 @@ export default function GetVideo() {
     // store input field value
     setUrl(updateUrl);
   };
+
   const opts = {
     height: '390',
     width: '640',
@@ -39,7 +44,10 @@ export default function GetVideo() {
         placeholder="URL..."
       />
       <button onClick={handleClick}>Submit</button>
-      <YouTube videoId={url} opts={opts} />
+      <div>
+        {url !== input ? <YouTube videoId={url} opts={opts} /> : undefined}
+        {children}
+      </div>
     </div>
   );
 }
