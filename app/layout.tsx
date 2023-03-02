@@ -24,9 +24,10 @@ export default function RootLayout({ children }: LayoutProps) {
           <nav>
             <div>
               <Link href="/">Home</Link>
-              <Link href="/transcript">Transcript</Link>
+              <Link href="/transcript">Gallery</Link>
               <Link href="/register">Sign up</Link>
               <Link href="/login">Login</Link>
+              <Link href="/logout">Logout</Link>
             </div>
           </nav>
         </header>
