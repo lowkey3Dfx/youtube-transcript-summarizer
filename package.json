@@ -20,6 +20,7 @@
     "dotenv": "^16.0.3",
     "dotenv-cli": "^7.0.0",
     "dotenv-safe": "^8.2.0",
+    "js-cookie": "^3.0.1",
     "ley": "^0.8.1",
     "next": "^13.2.1",
     "patch-package": "^6.5.1",
