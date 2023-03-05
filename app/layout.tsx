@@ -5,8 +5,8 @@ import { getUserBySessionToken } from '../database/users';
 
 export const metadata = {
   title: {
-    default: 'animals4everyone',
-    template: '%s | animals4everyone',
+    default: 'youtube-transcript-summarizer',
+    template: '%s | youtube-transcript-summarizer',
   },
   icons: {
     shortcut: '/favicon.ico',
@@ -27,6 +27,10 @@ export default async function RootLayout({ children }: LayoutProps) {
   // 2. validate that session
   // 3. get the user profile matching the session
   const user = token && (await getUserBySessionToken(token.value));
+
+  // if user is not undefined, the person is logged in
+  // if user is undefined, the person is logged out
+
   return (
     <html lang="en">
       <head />
@@ -36,12 +40,19 @@ export default async function RootLayout({ children }: LayoutProps) {
             <div>
               <Link href="/">Home</Link>
               <Link href="/transcript">Gallery</Link>
-              <Link href="/register">Sign up</Link>
-              <Link href="/login">Login</Link>
-              <Link href="/logout" prefetch={false}>
-                Logout
-              </Link>
-              {user && user.username}
+              {user ? (
+                <>
+                  <Link href="/logout" prefetch={false}>
+                    Logout
+                  </Link>
+                  {user.username}
+                </>
+              ) : (
+                <>
+                  <Link href="/register">Sign up</Link>
+                  <Link href="/login">Login</Link>
+                </>
+              )}
             </div>
           </nav>
         </header>

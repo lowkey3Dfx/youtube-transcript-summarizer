@@ -1,3 +1,5 @@
+import styles from './page.module.scss';
+
 const fs = require('node:fs');
 
 export default async function TranscriptPage() {
@@ -21,8 +23,27 @@ export default async function TranscriptPage() {
   const channelTitle = videoRes.channelTitle;
 
   // use 'readFileSync' method of the 'fs' module to read the file and return its contents as sting
-  const transcriptPath = 'app/getTranscript/op.txt';
-  const transcriptContent = fs.readFileSync(transcriptPath, 'utf8');
+  // const transcriptPath = 'app/getTranscript/op.txt';
+  // const transcriptContent = fs.readFileSync(transcriptPath, 'utf8');
+
+  function getFileContents(transcriptPath: string) {
+    try {
+      // Check if file exists
+      if (fs.existsSync('app/getTranscript/op.txt')) {
+        // Read file contents
+        const contents = fs.readFileSync('app/getTranscript/op.txt', 'utf-8');
+        return contents;
+      } else {
+        return undefined;
+      }
+    } catch (err) {
+      console.error(err);
+      return undefined;
+    }
+  }
+
+  const fileContents = getFileContents('./op.txt');
+  console.log(fileContents); // Will log file contents or undefined if file doesn't exist
 
   return (
     <div>
@@ -32,13 +53,16 @@ export default async function TranscriptPage() {
 
       <p>{videoDescription}</p>
       <p>Channel ID: {channelId}</p>
+      <GetVideo children={undefined} />
       <img
         src={thumbnail}
         alt="thumbnail from channel"
         height={480}
         width={640}
       />
-      <p>{transcriptContent}</p>
+      <div className={styles.transcriptContainer}>
+        <p>{fileContents}</p>
+      </div>
     </div>
   );
 }

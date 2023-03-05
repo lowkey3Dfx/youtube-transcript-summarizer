@@ -3,10 +3,19 @@
 import React, { ReactNode, useState } from 'react';
 import YouTube from 'react-youtube';
 
+// const { spawn } = require('child_process');
+
 type Props = {
   children: ReactNode;
 };
 
+// call python script with node.js
+// const childPython = spawn('python', ['--version']);
+// childPython.stderr.on('data', (data: any) => {
+//   console.error(`stderr: ${data}`);
+// });
+
+// get video from url using react-youtube module
 export default function GetVideo({ children }: Props) {
   const [input, setInput] = useState('');
   const [url, setUrl] = useState('');
