@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { RegisterResponseBody } from '../../api/(auth)/register/route';
+import { getSafeReturnToPath } from '../../../util/validation';
+import { RegisterResponseBodyPost } from '../../api/(auth)/register/route';
 
 export default function RegisterForm(props: { returnTo?: string | string[] }) {
   const [username, setUsername] = useState('');
@@ -20,24 +21,21 @@ export default function RegisterForm(props: { returnTo?: string | string[] }) {
           body: JSON.stringify({ username, password }),
         });
 
-        const data: RegisterResponseBody = await response.json();
+        const data: RegisterResponseBodyPost = await response.json();
 
         if ('errors' in data) {
           setErrors(data.errors);
           return;
         }
 
-        if (
-          props.returnTo &&
-          !Array.isArray(props.returnTo) &&
-          // This is checking that the return to is a valid path in your application and not going to a different domain
-          /^\/[a-zA-Z0-9-?=/]*$/.test(props.returnTo)
-        ) {
-          router.push(props.returnTo);
+        const returnTo = getSafeReturnToPath(props.returnTo);
+
+        if (returnTo) {
+          router.push(returnTo);
           return;
         }
 
-        router.push(`/profile/${data.user.username}`);
+        router.replace(`/profile/${data.user.username}`);
         router.refresh();
       }}
     >
