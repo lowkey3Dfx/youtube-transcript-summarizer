@@ -39,7 +39,7 @@ export default async function GalleryPage() {
                   width="50"
                   height="50"
                 />
-                <p>{data.channelName}</p>
+                <p>{data.channelTitle}</p>
               </div>
             </div>
           );
