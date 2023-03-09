@@ -21,10 +21,10 @@ export default async function GalleryPage() {
           // console.log(data.video_title);
           return (
             <div key={`transcript-${data.transcriptId}`}>
-              <Link href={`/api/transcript/${data.transcriptId}`}>
+              <Link href={`/transcript/${data.transcriptId}`}>
                 <h2>{data.videoTitle}</h2>
               </Link>
-              <Link href={`/api/transcript/${data.transcriptId}`}>
+              <Link href={`/transcript/${data.transcriptId}`}>
                 <img
                   src={data.thumbnail}
                   alt={data.videoTitle}

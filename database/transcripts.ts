@@ -2,6 +2,7 @@ import { cache } from 'react';
 import { sql } from './connect';
 
 export type Transcript = {
+  id: number;
   transcriptId: string;
   userId: string;
   fullTranscript: string;
@@ -19,4 +20,17 @@ export const getTranscripts = cache(async () => {
   `;
 
   return transcripts;
+});
+
+// get single transcript by transcriptId
+export const getTranscriptById = cache(async (transcriptId: string) => {
+  const [transcript] = await sql<Transcript[]>`
+    SELECT
+      *
+    FROM
+      transcripts
+    WHERE
+      id = ${transcriptId}
+  `;
+  return transcript;
 });

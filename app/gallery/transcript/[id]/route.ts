@@ -18,7 +18,7 @@ export async function GET(request: NextRequest, { params }) {
   console.log(params);
 
   return NextResponse.json({
-    transcript_id: 'WlVV_LA4FCg&list=WL&index=1',
+    transcript_id: params.transcript_id,
     id,
   });
 }
