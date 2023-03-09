@@ -39,13 +39,17 @@ export default async function RootLayout({ children }: LayoutProps) {
           <nav>
             <div>
               <Link href="/">Home</Link>
-              <Link href="/transcript">Gallery</Link>
+              <Link href="/transcript">Transcript</Link>
+
               {user ? (
                 <>
+                  <Link href="/gallery">Gallery</Link>
                   <Link href="/logout" prefetch={false}>
                     Logout
                   </Link>
-                  {user.username}
+                  <Link href={`/profile/${user.username}`}>
+                    {user.username}
+                  </Link>
                 </>
               ) : (
                 <>

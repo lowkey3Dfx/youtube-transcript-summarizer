@@ -1,40 +1,34 @@
 'use client';
 
+import { redirect, useRouter } from 'next/navigation';
 import React, { ReactNode, useState } from 'react';
 import YouTube from 'react-youtube';
-
-// const { spawn } = require('child_process');
+import styles from './page.module.scss';
 
 type Props = {
   children: ReactNode;
 };
 
-// call python script with node.js
-// const childPython = spawn('python', ['--version']);
-// childPython.stderr.on('data', (data: any) => {
-//   console.error(`stderr: ${data}`);
-// });
-
 // get video from url using react-youtube module
 export default function GetVideo({ children }: Props) {
   const [input, setInput] = useState('');
-  const [url, setUrl] = useState('');
-  const [updateUrl, setUpdateUrl] = useState(url);
+  const [url, setUrl] = useState('false');
+  const [videoId, setVideoId] = useState('');
+  const [videoTitle, setVideoTitle] = useState('');
+  const [videoDescription, setVideoDescription] = useState('');
+  const [channelId, setChannelId] = useState('');
+  const [channelTitle, setChannelTitle] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
+  const [videoTags, setVideoTags] = useState('');
+  const router = useRouter();
 
   function handleChange(e: any) {
     console.log(e.target.value);
     // setId to videoId extracting from Url
-    const videoId = e.target.value.split('v=')[1];
+    setVideoId(e.target.value.split('v=')[1]);
     // show user url inside input field
     setInput(e.target.value);
-    // update url value to id
-    setUpdateUrl(videoId);
   }
-
-  const handleClick = () => {
-    // store input field value
-    setUrl(updateUrl);
-  };
 
   const opts = {
     height: '390',
@@ -43,6 +37,38 @@ export default function GetVideo({ children }: Props) {
       // https://developers.google.com/youtube/player_parameters
     },
   };
+
+  async function getYtFetch() {
+    try {
+      // Check if file exists
+      if (videoId !== '') {
+        setUrl(videoId);
+
+        // fetch youtube data with API
+        const data = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=snippet&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
+        );
+
+        const res = await data.json();
+        const videoRes = res.items[0].snippet;
+        setVideoTitle(videoRes.title);
+        setVideoDescription(videoRes.description);
+        setChannelId(videoRes.channelId);
+        setChannelTitle(videoRes.channelTitle);
+        setThumbnail(videoRes.thumbnails.standard.url);
+        setVideoTags(videoRes.tags);
+        console.log(videoRes);
+
+        router.refresh();
+      } else {
+        return undefined;
+      }
+    } catch (err) {
+      console.error(err);
+      return undefined;
+    }
+  }
+
   return (
     <div className="urlInput">
       <input
@@ -52,11 +78,32 @@ export default function GetVideo({ children }: Props) {
         required
         placeholder="URL..."
       />
-      <button onClick={handleClick}>Submit</button>
-      <div>
-        {url !== input ? <YouTube videoId={url} opts={opts} /> : undefined}
-        {children}
-      </div>
+      <button onClick={getYtFetch}>Go</button>
+      <button
+        onClick={async () => {
+          // POST API data to transcripts table
+        }}
+      >
+        Add to Gallery
+      </button>
+      {url === videoId ? (
+        <div>
+          <div>
+            <p>{videoTitle}</p>
+            <p>Channel: {channelTitle}</p>
+            <p>Thumbnail url: {thumbnail}</p>
+
+            <p>{videoDescription}</p>
+            <p>Channel ID: {channelId}</p>
+            <p>Video tags: {videoTags}</p>
+            <img src={thumbnail} alt="thumbnail" height={480} width={640} />
+          </div>
+
+          <div>
+            <YouTube videoId={videoId} opts={opts} />
+          </div>
+        </div>
+      ) : undefined}
     </div>
   );
 }

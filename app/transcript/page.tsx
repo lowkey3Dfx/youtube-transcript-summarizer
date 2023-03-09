@@ -1,5 +1,6 @@
+import { exec } from 'node:child_process';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { getValidSessionByToken } from '../../database/sessions';
 import styles from './page.module.scss';
 import GetVideo from './transcript';
@@ -10,7 +11,6 @@ const fs = require('node:fs');
 export default async function Page() {
   // check if i have a valid session
   const sessionTokenCookie = cookies().get('sessionToken');
-  console.log(sessionTokenCookie);
 
   const session =
     sessionTokenCookie &&
@@ -25,27 +25,23 @@ export default async function Page() {
     redirect('/login?returnTo=/transcript');
   }
 
-  const videoUrl = 'https://www.youtube.com/watch?v=8D9XnnjFGMs';
-  const videoId = videoUrl.split('v=')[1];
-
-  // fetch youtube data with API
-  const data = await fetch(
-    `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&part=snippet&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
-  );
-
-  const res = await data.json();
-  const videoRes = res.items[0].snippet;
-  const videoTitle = videoRes.title;
-  const videoDescription = videoRes.description;
-  const thumbnail = videoRes.thumbnails.standard.url;
-  const channelId = videoRes.channelId;
-  const channelTitle = videoRes.channelTitle;
-
   // use 'readFileSync' method of the 'fs' module to read the file and return its contents as sting
   // const transcriptPath = 'app/getTranscript/op.txt';
   // const transcriptContent = fs.readFileSync(transcriptPath, 'utf8');
 
   function getFileContents(transcriptPath: string) {
+    // function to run tget.py and generate text file with transcript
+    function runPythonScript(): void {
+      exec('python3 app/getTranscript/tget.py', (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        console.log(`stdout: ${stdout}`);
+        console.error(`stderr: ${stderr}`);
+      });
+    }
+
     try {
       // Check if file exists
       if (fs.existsSync('app/getTranscript/op.txt')) {
@@ -53,7 +49,7 @@ export default async function Page() {
         const contents = fs.readFileSync('app/getTranscript/op.txt', 'utf-8');
         return contents;
       } else {
-        return undefined;
+        runPythonScript();
       }
     } catch (err) {
       console.error(err);
@@ -62,23 +58,13 @@ export default async function Page() {
   }
 
   const fileContents = getFileContents('./op.txt');
-  console.log(fileContents); // Will log file contents or undefined if file doesn't exist
+  // console.log(fileContents); // Will log file contents or undefined if file doesn't exist
 
   return (
     <div>
       <h1>Transcript Page</h1>
-      <p>{videoTitle}</p>
-      <p>Channel: {channelTitle}</p>
-
-      <p>{videoDescription}</p>
-      <p>Channel ID: {channelId}</p>
       <GetVideo children={undefined} />
-      <img
-        src={thumbnail}
-        alt="thumbnail from channel"
-        height={480}
-        width={640}
-      />
+
       <div className={styles.transcriptContainer}>
         <p>{fileContents}</p>
       </div>
