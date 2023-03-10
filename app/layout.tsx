@@ -1,7 +1,12 @@
 import { cookies } from 'next/headers';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import { getUserBySessionToken } from '../database/users';
+import facebookLogo from '../public/facebook-7-xxl.png';
+import instagramLogo from '../public/icons8-instagram-256.png';
+import youtubeLogo from '../public/icons8-youtube-256.png';
+import twitterLogo from '../public/twitter-xxl.png';
 
 export const metadata = {
   title: {
@@ -63,6 +68,23 @@ export default async function RootLayout({ children }: LayoutProps) {
         {children}
         <footer>
           <p>&copy; 2023 Youtube Transcript Summarizer</p>
+          <Link href="/transcript">About</Link>
+          <Link href="/transcript">Contact</Link>
+          <Link href="/transcript">Terms & Conditions</Link>
+          <Image
+            src={facebookLogo}
+            alt="Facebook Logo"
+            height="50"
+            width="50"
+          />
+          <Image
+            src={instagramLogo}
+            alt="Instagram Logo"
+            height="50"
+            width="50"
+          />
+          <Image src={twitterLogo} alt="Twitter Logo" height="50" width="50" />
+          <Image src={youtubeLogo} alt="Youtube Logo" height="50" width="50" />
         </footer>
       </body>
     </html>

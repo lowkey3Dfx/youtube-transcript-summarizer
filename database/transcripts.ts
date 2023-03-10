@@ -41,7 +41,7 @@ export const getTranscripts = cache(async () => {
 
 // get transcript by user_id
 // export const getTranscriptByUserId =
-export async function getTranscriptByUserId(userId: number) {
+export const getTranscriptByUserId = cache(async (userId: number) => {
   const [transcript] = await sql<Transcript[]>`
   SELECT
     *
@@ -51,12 +51,13 @@ export async function getTranscriptByUserId(userId: number) {
     user_id = ${userId}
   `;
   return transcript;
-}
+});
 
 // get transcript by user_id
 // export const getTranscriptByUserId =
-export async function getTranscriptByTranscriptId(transcriptId: string) {
-  const [transcript] = await sql<Transcript[]>`
+export const getTranscriptByTranscriptId = cache(
+  async (transcriptId: string) => {
+    const [transcript] = await sql<Transcript[]>`
     SELECT
       *
     FROM
@@ -64,8 +65,9 @@ export async function getTranscriptByTranscriptId(transcriptId: string) {
     WHERE
       transcriptId = ${transcriptId}
   `;
-  return transcript;
-}
+    return transcript;
+  },
+);
 
 // get single transcript by transcriptId
 export const getTranscriptById = cache(async (transcriptId: string) => {
@@ -80,26 +82,28 @@ export const getTranscriptById = cache(async (transcriptId: string) => {
   return transcript;
 });
 
-export async function createTranscript(
-  userId: number,
-  transcriptId: string,
-  fullTranscript: string,
-  summary: string,
-  channelId: string,
-  channelTitle: string,
-  channelLogo: string,
-  videoTitle: string,
-  videoDescription: string,
-  thumbnail: string,
-  videotags: string,
-) {
-  const [transcript] = await sql<Transcript[]>`
-  INSERT INTO transcripts
-        (user_id, transcript_id, full_transcript, summary, channel_id, channel_title, channel_logo, video_title, video_description, thumbnail, videoTags)
+export const createTranscript = cache(
+  async (
+    userId: number,
+    transcriptId: string,
+    fullTranscript: string,
+    summary: string,
+    channelId: string,
+    channelTitle: string,
+    channelLogo: string,
+    videoTitle: string,
+    videoDescription: string,
+    thumbnail: string,
+    videotags: string,
+  ) => {
+    const [transcript] = await sql<Transcript[]>`
+      INSERT INTO transcripts
+          (user_id, transcript_id, full_transcript, summary, channel_id, channel_title, channel_logo, video_title, video_description, thumbnail, videoTags)
       VALUES
-        (${userId}, ${transcriptId}, ${fullTranscript}, ${summary}, ${channelId}, ${channelTitle}, ${channelLogo}, ${videoTitle}, ${videoDescription}, ${thumbnail}, ${videotags})
+          (${userId}, ${transcriptId}, ${fullTranscript}, ${summary}, ${channelId}, ${channelTitle}, ${channelLogo}, ${videoTitle}, ${videoDescription}, ${thumbnail}, ${videotags})
       RETURNING
-        *
-  `;
-  return transcript;
-}
+          *
+          `;
+    return transcript;
+  },
+);

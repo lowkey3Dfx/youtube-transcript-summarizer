@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
+  createTranscript,
   getTranscriptByTranscriptId,
   getTranscriptByUserId,
 } from '../../../database/transcripts';
 
 // validate requestBody with zod
 const transcriptSchema = z.object({
-  user_id: z.string(),
+  user_id: z.number(),
   transcript_id: z.string(),
   full_transcript: z.string(),
   summary: z.string(),
@@ -79,6 +80,27 @@ export const POST = async (request: NextRequest) => {
   }
 
   // 3. create transcript
+  const newTranscript = await createTranscript(
+    result.data.user_id,
+    result.data.transcript_id,
+    result.data.full_transcript,
+    result.data.summary,
+    result.data.channel_id,
+    result.data.channel_title,
+    result.data.channel_logo,
+    result.data.video_title,
+    result.data.video_description,
+    result.data.thumbnail,
+    result.data.videoTags,
+  );
+
+  if (!newTranscript) {
+    return NextResponse.json(
+      { error: [{ message: 'transcript creation failed' }] },
+      { status: 500 },
+    );
+  }
 
   // 4. return the transcript / close the cycle
+  return NextResponse.json(newTranscript);
 };

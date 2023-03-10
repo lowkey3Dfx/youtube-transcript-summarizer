@@ -2,7 +2,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 import os
 import sys
 
-videoUrl = 'https://www.youtube.com/watch?v=9yeOJ0ZMUYw&ab_channel=Socratica';
+videoUrl = 'https://www.youtube.com/watch?v=8D9XnnjFGMs&t=13s';
 videoId = videoUrl.split('v=')[1];
 # Captures output of subtitles
 outls = []
