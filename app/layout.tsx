@@ -7,6 +7,7 @@ import facebookLogo from '../public/facebook-7-xxl.png';
 import instagramLogo from '../public/icons8-instagram-256.png';
 import youtubeLogo from '../public/icons8-youtube-256.png';
 import twitterLogo from '../public/twitter-xxl.png';
+import styles from './page.module.scss';
 
 export const metadata = {
   title: {
@@ -41,7 +42,7 @@ export default async function RootLayout({ children }: LayoutProps) {
       <head />
       <body>
         <header>
-          <nav>
+          <nav className={styles.navbar}>
             <div>
               <Link href="/">Home</Link>
               <Link href="/transcript">Transcript</Link>
@@ -66,11 +67,11 @@ export default async function RootLayout({ children }: LayoutProps) {
           </nav>
         </header>
         {children}
-        <footer>
+        <footer className={styles.footer}>
           <p>&copy; 2023 Youtube Transcript Summarizer</p>
-          <Link href="/transcript">About</Link>
-          <Link href="/transcript">Contact</Link>
-          <Link href="/transcript">Terms & Conditions</Link>
+          <Link href="/footer/about">About</Link>
+          <Link href="/footer/contact">Contact</Link>
+          <Link href="/footer/terms">Terms & Conditions</Link>
           <Image
             src={facebookLogo}
             alt="Facebook Logo"
