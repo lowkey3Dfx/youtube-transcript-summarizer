@@ -1,18 +1,6 @@
 import { cache } from 'react';
 import { sql } from './connect';
 
-// export type Transcript = {
-//   id: number;
-//   transcriptId: string;
-//   userId: string;
-//   fullTranscript: string;
-//   summary: string;
-//   channelName: string;
-//   channelLogo: string;
-//   videoTitle: string;
-//   thumbnail: string;
-// };
-
 // this will be a direct representation of the table in the database
 // has to be camelCase
 export type Transcript = {
@@ -53,8 +41,7 @@ export const getTranscriptByUserId = cache(async (userId: number) => {
   return transcript;
 });
 
-// get transcript by user_id
-// export const getTranscriptByUserId =
+// get transcript by transcript_id which is also videoId
 export const getTranscriptByTranscriptId = cache(
   async (transcriptId: string) => {
     const [transcript] = await sql<Transcript[]>`
@@ -63,25 +50,26 @@ export const getTranscriptByTranscriptId = cache(
     FROM
       transcripts
     WHERE
-      transcriptId = ${transcriptId}
+      transcript_id = ${transcriptId}
   `;
     return transcript;
   },
 );
 
 // get single transcript by transcriptId
-export const getTranscriptById = cache(async (transcriptId: string) => {
-  const [transcript] = await sql<Transcript[]>`
-    SELECT
-      *
-    FROM
-      transcripts
-    WHERE
-      id = ${transcriptId}
-  `;
-  return transcript;
-});
+// export const getTranscriptById = cache(async (transcriptId: string) => {
+//   const [transcript] = await sql<Transcript[]>`
+//     SELECT
+//       *
+//     FROM
+//       transcripts
+//     WHERE
+//       id = ${transcriptId}
+//   `;
+//   return transcript;
+// });
 
+// this will be a POST method
 export const createTranscript = cache(
   async (
     userId: number,

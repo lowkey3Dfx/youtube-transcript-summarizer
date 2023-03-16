@@ -26,9 +26,15 @@ CREATE TABLE transcripts (
 );
 
 INSERT INTO transcripts
-VALUES(1,'varePWkGi8Y2',4,'Welcome to the future. This timeline is amazing! The global hyperloop network is finally complete. The bioengineered glow-in-the-dark Redwood Forest in the Sahara is a vacation paradise. And best of all, we have colonies throughout the Solar System. One thing that might surprise you about the future is that everyone still uses SQL.','Welcome to the future.','Channel Name', 'Channel Logo', 'video title', 'https://i.ytimg.com/vi/varePWkGi8Y/sddefault.jpg');
-https://www.youtube.com/watch?v=varePWkGi8Y
-
-INSERT INTO transcripts
-VALUES(2, '8I3NTE4cn5s&t=306s',4, 'Full Transcript Text','Learn how to use AI Art and ChatGPT to Create a Website without writing a single line of code!','Codex Community', 'Channel Logo', 'How to use AI Art and ChatGPT to Create a Insane Web Designs', 'https://i.ytimg.com/vi/8I3NTE4cn5s/sddefault.jpg');
-https://www.youtube.com/watch?v=8I3NTE4cn5s&t=306s
+(user_id, transcript_id , full_transcript, summary, channel_id, channel_title, channel_logo, video_title, video_description, thumbnail, videoTags)
+VALUES(4,'8D9XnnjFGMs&t=13s','Looooooooooong TEXT','short TEXT','UCsBjURrPoezykLs9EqgamOA','Fireship','https://i.ytimg.com/vi/fi40FAD-eik/sddefault.jpg', 'GraphQL with Apollo Server 2.0','Learn how to build an API using GraphQL with Apollo Server 2.0, using Firestore as a backend data source.', 'https://i.ytimg.com/vi/8D9XnnjFGMs/sddefault.jpg', 'firebasewebdevapp developmenttypescriptjavascriptlessontutorialapollo serverapollo enginegraphqlgraph qlfirebase graphqlgraphql tutorialapollo server tutorialnodejsapollo nodegraphql firestorefirestoreapollo server 2'), (4,
+'8I3NTE4cn5s&t=307s',
+'Looooooooooong TEXT',
+'short TEXT',
+'UCgkx40oeL6X9l93iT0sHxgg',
+'Codex Community',
+'https://i.ytimg.com/vi/fi40FAD-eik/sddefault.jpg',
+'How to use AI Art and ChatGPT to Create a Insane Web Designs',
+'Learn how to use AI Art and ChatGPT to Create a Website without writing a single line of code! ⭐ Check out my Design UI / UX Course called Enhance UI ⭐',
+'https://i.ytimg.com/vi/8I3NTE4cn5s/sddefault.jpg',
+'ai web designweb designaiopenaimidjourneydalleai websiteai website designai uiai user interfaceai uxuimidjourney websitewebsite aiwebsite design aiweb design aiweb design midjourneychat gptchatgptai');

@@ -22,7 +22,7 @@ for i in tx:
     opf.write(outtxt + "\n")
 
 
-    # Start NLP stuff?
+    # Start NLP stuff? natural language processing
 
     # from sklearn.feature_extraction.text import CountVectorizer
     # # Create a Vectorizer Object

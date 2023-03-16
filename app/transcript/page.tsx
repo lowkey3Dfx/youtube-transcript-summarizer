@@ -4,6 +4,7 @@ import { redirect, useRouter } from 'next/navigation';
 import { getValidSessionByToken } from '../../database/sessions';
 import styles from './page.module.scss';
 import GetVideo from './transcript';
+import TranscriptForm from './TranscriptForm';
 
 const fs = require('node:fs');
 
@@ -63,6 +64,7 @@ export default async function Page() {
   return (
     <div>
       <h1>Transcript Page</h1>
+      {/* <TranscriptForm /> */}
       <GetVideo children={undefined} />
 
       <div className={styles.transcriptContainer}>

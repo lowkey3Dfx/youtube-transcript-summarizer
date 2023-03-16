@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { getTranscripts } from '../../database/transcripts';
 
 export const metadata = {
-  title: 'Animals',
-  description: 'This is my Animals page',
+  title: 'Transcripts',
+  description: 'This is the Transcripts page',
 };
 
 export const dynamic = 'force-dynamic';
@@ -34,10 +34,10 @@ export default async function GalleryPage() {
               </Link>
               <div>
                 <img
-                  src={data.channelLogo}
+                  src={data.thumbnail}
                   alt={data.channelLogo}
-                  width="50"
-                  height="50"
+                  width="80"
+                  height="60"
                 />
                 <p>{data.channelTitle}</p>
               </div>

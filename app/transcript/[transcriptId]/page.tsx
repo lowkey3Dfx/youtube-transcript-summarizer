@@ -1,25 +1,9 @@
-import { Metadata } from 'next';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getTranscriptById } from '../../../database/transcripts';
-import { transcriptNotFoundMetadata } from './not-found';
-
-export const dynamic = 'force-dynamic';
-
-export async function generateMetadata(props: Props): Promise<Metadata> {
-  const singleTranscript = await getTranscriptById(
-    parseInt(props.params.transcriptId),
-  );
-
-  if (!singleTranscript) {
-    return transcriptNotFoundMetadata;
-  }
-
-  return {
-    title: singleTranscript.videoTitle,
-    description: singleTranscript.summary,
-  };
-}
+import {
+  getTranscriptByTranscriptId,
+  getTranscripts,
+} from '../../../database/transcripts';
+import GetVideo from './GetVideo';
 
 type Props = {
   params: {
@@ -27,23 +11,47 @@ type Props = {
   };
 };
 
+// data GETs here from database
+// get video from url using react-youtube module
 export default async function TranscriptPage(props: Props) {
-  console.log(props);
-  const singleTranscript = await getTranscriptById(
-    parseInt(props.params.transcriptId),
+  const singleTranscript = await getTranscriptByTranscriptId(
+    props.params.transcriptId,
   );
+  // console.log(props.params.transcriptId);
+  // console.log(singleTranscript);
+  // console.log(props);
+
+  const videoId = props.params.transcriptId;
 
   if (!singleTranscript) {
-    // throw new Error('this action is not allowed with Error id: 213123123');
     notFound();
   }
 
   return (
-    <>
-      <h1>{singleTranscript.videoTitle}</h1>
-      <main>
-        <p>{singleTranscript.fullTranscript}</p>
-      </main>
-    </>
+    <div>
+      <div>
+        <p>{singleTranscript.videoTitle}</p>
+        <p>{singleTranscript.transcriptId}</p>
+        <p>Channel: {singleTranscript.channelTitle}</p>
+        <p>Thumbnail url: {singleTranscript.thumbnail}</p>
+
+        <p>{singleTranscript.videoDescription}</p>
+        <p>Channel ID: {singleTranscript.channelId}</p>
+        <p>Video tags: {singleTranscript.videotags}</p>
+        <img
+          src={singleTranscript.thumbnail}
+          alt="thumbnail"
+          height={480}
+          width={640}
+        />
+      </div>
+      <div>
+        <GetVideo
+          params={{
+            transcriptId: videoId,
+          }}
+        />
+      </div>
+    </div>
   );
 }

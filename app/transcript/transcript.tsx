@@ -3,6 +3,7 @@
 import { redirect, useRouter } from 'next/navigation';
 import React, { ReactNode, useState } from 'react';
 import YouTube from 'react-youtube';
+import { TranscriptResponseBodyPost } from '../api/transcript/route';
 import styles from './page.module.scss';
 
 type Props = {
@@ -20,6 +21,12 @@ export default function GetVideo({ children }: Props) {
   const [channelTitle, setChannelTitle] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   const [videoTags, setVideoTags] = useState('');
+  const [transcriptId, setTranscriptId] = useState(videoId);
+  const [errors, setErrors] = useState<{ message: string }[]>([]);
+  const userId = 1;
+  const channelLogo = 'channel logo';
+  const fullTranscript = 'full Transcript';
+  const summary = 'summary';
   const router = useRouter();
 
   function handleChange(e: any) {
@@ -57,7 +64,7 @@ export default function GetVideo({ children }: Props) {
         setChannelTitle(videoRes.channelTitle);
         setThumbnail(videoRes.thumbnails.standard.url);
         setVideoTags(videoRes.tags);
-        console.log(videoRes);
+        // console.log(videoRes);
 
         router.refresh();
       } else {
@@ -79,9 +86,30 @@ export default function GetVideo({ children }: Props) {
         placeholder="URL..."
       />
       <button onClick={getYtFetch}>Go</button>
+      <button>Clear</button>
       <button
-        onClick={async () => {
-          // POST API data to transcripts table
+        onClick={async (event) => {
+          event.preventDefault();
+
+          const response = await fetch('/api/transcript', {
+            method: 'POST',
+            body: JSON.stringify({
+              userId,
+              transcriptId,
+              fullTranscript,
+              summary,
+              channelId,
+              channelTitle,
+              channelLogo,
+              videoTitle,
+              videoDescription,
+              thumbnail,
+              videoTags,
+            }),
+          });
+
+          const data: TranscriptResponseBodyPost = await response.json();
+          console.log(data);
         }}
       >
         Add to Gallery
@@ -90,6 +118,7 @@ export default function GetVideo({ children }: Props) {
         <div>
           <div>
             <p>{videoTitle}</p>
+            <p>{videoId}</p>
             <p>Channel: {channelTitle}</p>
             <p>Thumbnail url: {thumbnail}</p>
 

@@ -4,6 +4,7 @@ import {
   createTranscript,
   getTranscriptByTranscriptId,
   getTranscriptByUserId,
+  getTranscripts,
 } from '../../../database/transcripts';
 
 // validate requestBody with zod
@@ -22,7 +23,7 @@ const transcriptSchema = z.object({
 });
 
 // types of possible responses
-export type TranscriptResponseBody =
+export type TranscriptResponseBodyPost =
   | { error: { message: string }[] }
   | {
       transcript: {
@@ -40,12 +41,12 @@ export type TranscriptResponseBody =
       };
     };
 
+// POST request
 export const POST = async (request: NextRequest) => {
   // steps to create a transcript
   // 1. validate the data / does the body contain what you want
   const body = await request.json();
-  console.log(body);
-
+  // console.log(body);
   const result = transcriptSchema.safeParse(body);
 
   if (!result.success) {
@@ -103,4 +104,23 @@ export const POST = async (request: NextRequest) => {
 
   // 4. return the transcript / close the cycle
   return NextResponse.json(newTranscript);
+};
+
+// GET request
+export const GET = async () => {
+  // Extract transcript_id from query parameters
+
+  // Fetch the transcript using its transcript_id
+  const transcripts = await getTranscripts();
+
+  // Check if transcript exists
+  if (!transcripts) {
+    return NextResponse.json(
+      { errors: [{ message: 'Transcript not found' }] },
+      { status: 404 },
+    );
+  }
+
+  // Return the transcript data
+  return NextResponse.json({ transcripts: transcripts });
 };
