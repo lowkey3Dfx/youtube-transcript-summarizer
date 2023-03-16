@@ -11,7 +11,7 @@ type Props = {
 export default function GetVideo(props: Props) {
   const singleTranscript = props;
   const videoId = props.params.transcriptId;
-  console.log(props);
+  // console.log(props);
 
   const opts = {
     height: '390',

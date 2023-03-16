@@ -1,15 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getTranscripts } from '../../database/transcripts';
+import GalleryPage from './GalleryPage';
 
 export const metadata = {
   title: 'Transcripts',
   description: 'This is the Transcripts page',
 };
 
+type Props = {
+  props: string[];
+};
+
 export const dynamic = 'force-dynamic';
 
-export default async function GalleryPage() {
+export default async function Page() {
   const transcripts = await getTranscripts();
 
   return (
@@ -41,6 +46,7 @@ export default async function GalleryPage() {
                 />
                 <p>{data.channelTitle}</p>
               </div>
+              <GalleryPage props={transcripts} />
             </div>
           );
         })}

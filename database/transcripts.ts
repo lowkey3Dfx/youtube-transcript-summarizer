@@ -15,7 +15,7 @@ export type Transcript = {
   videoTitle: string;
   videoDescription: string;
   thumbnail: string;
-  videotags: string;
+  videotags: string[];
 };
 
 // get all transcripts
@@ -86,7 +86,7 @@ export const createTranscript = cache(
   ) => {
     const [transcript] = await sql<Transcript[]>`
       INSERT INTO transcripts
-          (user_id, transcript_id, full_transcript, summary, channel_id, channel_title, channel_logo, video_title, video_description, thumbnail, videoTags)
+          (user_id, transcript_id, full_transcript, summary, channel_id, channel_title, channel_logo, video_title, video_description, thumbnail, videotags)
       VALUES
           (${userId}, ${transcriptId}, ${fullTranscript}, ${summary}, ${channelId}, ${channelTitle}, ${channelLogo}, ${videoTitle}, ${videoDescription}, ${thumbnail}, ${videotags})
       RETURNING
@@ -95,3 +95,14 @@ export const createTranscript = cache(
     return transcript;
   },
 );
+
+export const deleteTranscriptById = cache(async (transcriptId: string) => {
+  const [animal] = await sql<Transcript[]>`
+    DELETE FROM
+      transcripts
+    WHERE
+      transcript_id = ${transcriptId}
+    RETURNING *
+  `;
+  return animal;
+});

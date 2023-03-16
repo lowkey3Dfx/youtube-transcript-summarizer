@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
   createTranscript,
+  deleteTranscriptById,
   getTranscriptByTranscriptId,
   getTranscriptByUserId,
   getTranscripts,
@@ -19,7 +20,7 @@ const transcriptSchema = z.object({
   video_title: z.string(),
   video_description: z.string(),
   thumbnail: z.string(),
-  videoTags: z.string(),
+  videotags: z.string(),
 });
 
 // types of possible responses
@@ -37,7 +38,7 @@ export type TranscriptResponseBodyPost =
         video_title: string;
         video_description: string;
         thumbnail: string;
-        videoTags: string;
+        videotags: string[];
       };
     };
 
@@ -47,18 +48,23 @@ export const POST = async (request: NextRequest) => {
   // 1. validate the data / does the body contain what you want
   const body = await request.json();
   // console.log(body);
-  const result = transcriptSchema.safeParse(body);
+  // const result = transcriptSchema.safeParse(body);
+  const result = body;
+  // console.log(body);
+  // console.log(result);
 
-  if (!result.success) {
-    return NextResponse.json(
-      {
-        error: result.error.issues,
-      },
-      { status: 400 },
-    );
-  }
+  // if (!result.success) {
+  //   return NextResponse.json(
+  //     {
+  //       error: result.error.issues,
+  //     },
+  //     { status: 400 },
+  //   );
+  // }
+
   // check if the string is empty / could also check for transcript
-  if (!result.data.user_id || !result.data.transcript_id) {
+
+  if (!result.userId || !result.transcriptId) {
     return NextResponse.json(
       { errors: [{ message: 'input empty' }] },
       { status: 400 },
@@ -69,9 +75,8 @@ export const POST = async (request: NextRequest) => {
   // 2.a compare the username with the database
 
   // checking if the transcript_id exist or not
-  const transcript = await getTranscriptByTranscriptId(
-    result.data.transcript_id,
-  );
+
+  const transcript = await getTranscriptByTranscriptId(result.transcriptId);
 
   if (transcript) {
     return NextResponse.json(
@@ -82,17 +87,17 @@ export const POST = async (request: NextRequest) => {
 
   // 3. create transcript
   const newTranscript = await createTranscript(
-    result.data.user_id,
-    result.data.transcript_id,
-    result.data.full_transcript,
-    result.data.summary,
-    result.data.channel_id,
-    result.data.channel_title,
-    result.data.channel_logo,
-    result.data.video_title,
-    result.data.video_description,
-    result.data.thumbnail,
-    result.data.videoTags,
+    result.userId,
+    result.transcriptId,
+    result.fullTranscript,
+    result.summary,
+    result.channelId,
+    result.channelTitle,
+    result.channelLogo,
+    result.videoTitle,
+    result.videoDescription,
+    result.thumbnail,
+    result.videotags,
   );
 
   if (!newTranscript) {
@@ -123,4 +128,31 @@ export const GET = async () => {
 
   // Return the transcript data
   return NextResponse.json({ transcripts: transcripts });
+};
+
+export const DELETE = async (params, request: NextRequest) => {
+  const transcriptId = params.transcriptId;
+  console.log(transcriptId);
+
+  if (!transcriptId) {
+    return NextResponse.json(
+      {
+        error: 'Transcript id is not valid',
+      },
+      { status: 400 },
+    );
+  }
+
+  const singleTranscript = await deleteTranscriptById(transcriptId);
+
+  if (!singleTranscript) {
+    return NextResponse.json(
+      {
+        error: 'Transcript not found',
+      },
+      { status: 404 },
+    );
+  }
+
+  return NextResponse.json({ transcript: singleTranscript });
 };

@@ -22,8 +22,8 @@ export default function GetVideo({ children }: Props) {
   const [thumbnail, setThumbnail] = useState('');
   const [videoTags, setVideoTags] = useState('');
   const [transcriptId, setTranscriptId] = useState(videoId);
-  const [errors, setErrors] = useState<{ message: string }[]>([]);
-  const userId = 1;
+  const [error, setError] = useState<string>();
+  const userId = 4;
   const channelLogo = 'channel logo';
   const fullTranscript = 'full Transcript';
   const summary = 'summary';
@@ -64,7 +64,7 @@ export default function GetVideo({ children }: Props) {
         setChannelTitle(videoRes.channelTitle);
         setThumbnail(videoRes.thumbnails.standard.url);
         setVideoTags(videoRes.tags);
-        // console.log(videoRes);
+        setTranscriptId(videoId);
 
         router.refresh();
       } else {
@@ -88,9 +88,7 @@ export default function GetVideo({ children }: Props) {
       <button onClick={getYtFetch}>Go</button>
       <button>Clear</button>
       <button
-        onClick={async (event) => {
-          event.preventDefault();
-
+        onClick={async () => {
           const response = await fetch('/api/transcript', {
             method: 'POST',
             body: JSON.stringify({
@@ -108,8 +106,17 @@ export default function GetVideo({ children }: Props) {
             }),
           });
 
-          const data: TranscriptResponseBodyPost = await response.json();
+          const data = await response.json();
           console.log(data);
+
+          if (data.error) {
+            setError(data.error);
+            return;
+          }
+          // you should use this
+          // router.refresh();
+
+          // setAnimals([...animals, data.animal]);
         }}
       >
         Add to Gallery

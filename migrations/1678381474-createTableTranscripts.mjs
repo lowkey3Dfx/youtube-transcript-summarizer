@@ -10,7 +10,7 @@ export async function up(sql) {
   channel_title varchar(50),
   channel_logo varchar(80),
   video_title varchar(100),
-  video_description varchar(400),
+  video_description varchar(4000),
   thumbnail varchar(80),
   videoTags varchar(400)
   )
