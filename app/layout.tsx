@@ -73,24 +73,40 @@ export default async function RootLayout({ children }: LayoutProps) {
         </header>
         {children}
         <footer className={styles.footer}>
-          <p>&copy; 2023 Youtube Transcript Summarizer</p>
-          <Link href="/footer/about">About</Link>
-          <Link href="/footer/contact">Contact</Link>
-          <Link href="/footer/terms">Terms & Conditions</Link>
-          <Image
-            src={facebookLogo}
-            alt="Facebook Logo"
-            height="50"
-            width="50"
-          />
-          <Image
-            src={instagramLogo}
-            alt="Instagram Logo"
-            height="50"
-            width="50"
-          />
-          <Image src={twitterLogo} alt="Twitter Logo" height="50" width="50" />
-          <Image src={youtubeLogo} alt="Youtube Logo" height="50" width="50" />
+          <div className={styles.footer_container}>
+            <div className={styles.footer_left}>
+              <p>&copy; 2023 Youtube Transcript Summarizer</p>
+              <Link href="/footer/about">About</Link>
+              <Link href="/footer/contact">Contact</Link>
+              <Link href="/footer/terms">Terms & Conditions</Link>
+            </div>
+            <div className={styles.footer_right}>
+              <Image
+                src={facebookLogo}
+                alt="Facebook Logo"
+                height="32"
+                width="32"
+              />
+              <Image
+                src={instagramLogo}
+                alt="Instagram Logo"
+                height="36"
+                width="36"
+              />
+              <Image
+                src={twitterLogo}
+                alt="Twitter Logo"
+                height="32"
+                width="32"
+              />
+              <Image
+                src={youtubeLogo}
+                alt="Youtube Logo"
+                height="36"
+                width="36"
+              />
+            </div>
+          </div>
         </footer>
       </body>
     </html>
