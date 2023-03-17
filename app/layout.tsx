@@ -40,29 +40,34 @@ export default async function RootLayout({ children }: LayoutProps) {
   return (
     <html lang="en">
       <head />
-      <body>
+      <body className={styles.body}>
         <header>
           <nav className={styles.navbar}>
-            <div>
-              <Link href="/">Home</Link>
-              <Link href="/transcript">Transcript</Link>
+            <div className={styles.container}>
+              <div className={styles.navbar_left}>
+                <p>Youtube Transcript Summarizer</p>
+                <Link href="/">Home</Link>
+              </div>
 
-              {user ? (
-                <>
-                  <Link href="/gallery">Gallery</Link>
-                  <Link href="/logout" prefetch={false}>
-                    Logout
-                  </Link>
-                  <Link href={`/profile/${user.username}`}>
-                    {user.username}
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link href="/register">Sign up</Link>
-                  <Link href="/login">Login</Link>
-                </>
-              )}
+              <div className={styles.navbar_right}>
+                <Link href="/transcript">Transcript</Link>
+                {user ? (
+                  <>
+                    <Link href="/gallery">Gallery</Link>
+                    <Link href="/logout" prefetch={false}>
+                      Logout
+                    </Link>
+                    <Link href={`/profile/${user.username}`}>
+                      {user.username}
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/register">Sign up</Link>
+                    <Link href="/login">Login</Link>
+                  </>
+                )}
+              </div>
             </div>
           </nav>
         </header>
