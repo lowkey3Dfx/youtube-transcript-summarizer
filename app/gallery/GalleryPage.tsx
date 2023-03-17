@@ -34,7 +34,7 @@ export default function GalleryPage(props) {
           // );
         }}
       >
-        Delete from Gallery
+        Delete
       </button>
     </div>
   );

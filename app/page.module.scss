@@ -1,7 +1,8 @@
 .body {
   background-image: url('/redCube_BackgroundImage.png');
   background-repeat: no-repeat;
-  background-color: rgb(233, 233, 233);
+
+  background-color: rgba(208, 208, 208, 0.193);
 }
 
 .navbar {
@@ -131,6 +132,7 @@
       sans-serif;
 
     h1 {
+      color: rgba(20, 20, 20, 0.931);
       font-weight: 700;
       font-size: 3rem;
       text-transform: uppercase;
@@ -138,14 +140,15 @@
     }
 
     h2 {
+      color: rgba(20, 20, 20, 0.888);
       font-size: 0.9rem;
       font-weight: 400;
       text-transform: uppercase;
     }
 
     button {
-      background-color: #ea3a3a;
       border: none;
+      background-color: #ea3a3ad4;
       color: white;
       min-width: 75px;
       height: 32px;
@@ -158,10 +161,11 @@
     }
     & button:hover {
       cursor: pointer;
-      background-color: #f46363;
+      background-color: #ea3a3a;
     }
 
     p {
+      color: rgba(20, 20, 20, 0.897);
       text-transform: uppercase;
       font-weight: 500;
       letter-spacing: 0.6mm;
@@ -191,7 +195,7 @@
 
       button {
         align-self: center;
-        background-color: #ea3a3a;
+        background-color: #ea3a3ad4;
         border: none;
         color: white;
         width: 124px;
@@ -206,7 +210,7 @@
       }
       & button:hover {
         cursor: pointer;
-        background-color: #f46363;
+        background-color: #ea3a3a;
       }
     }
   }
