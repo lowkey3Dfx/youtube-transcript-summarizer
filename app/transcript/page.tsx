@@ -62,13 +62,20 @@ export default async function Page() {
   // console.log(fileContents); // Will log file contents or undefined if file doesn't exist
 
   return (
-    <div>
-      <h1>Transcript Page</h1>
-      {/* <TranscriptForm /> */}
-      <GetVideo children={undefined} />
-
-      <div className={styles.transcriptContainer}>
-        <p>{fileContents}</p>
+    <div className={styles.container}>
+      <div className={styles.mainDiv}>
+        <h1>Transcript Page</h1>
+        <div className={styles.divOne}>
+          <div className={styles.divOneLeft}>
+            <TranscriptForm />
+            {/* <GetVideo children={undefined} /> */}
+          </div>
+          <div className={styles.divOneRight}>
+            <div className={styles.transcriptContainer}>
+              <p>{fileContents}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

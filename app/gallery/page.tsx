@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getTranscripts } from '../../database/transcripts';
+import {
+  getTranscriptByTranscriptId,
+  getTranscripts,
+} from '../../database/transcripts';
 import GalleryPage from './GalleryPage';
 import styles from './page.module.scss';
 
@@ -17,6 +20,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function Page() {
   const transcripts = await getTranscripts();
+  // console.log(transcripts);
 
   return (
     <main className={styles.pageMain}>
@@ -52,7 +56,7 @@ export default async function Page() {
                     />
                     <p>{data.channelTitle}</p>
                   </div>
-                  <GalleryPage props={transcripts} />
+                  <GalleryPage transcripts={data.transcriptId} />
                 </div>
               );
             })}

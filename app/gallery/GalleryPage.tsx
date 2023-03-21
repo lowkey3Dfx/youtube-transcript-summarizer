@@ -1,31 +1,39 @@
 'use client';
 
+import router from 'next/router';
 import { useState } from 'react';
 
+type Props = {
+  transcripts: Transcript[];
+};
+
 // props are all transcripts
-export default function GalleryPage(props) {
+export default function GalleryPage(props: Props) {
+  // const [transcripts, setTranscripts] = useState<Transcript[]>(
+  //   props.transcripts,
+
   const [error, setError] = useState<string>();
+
+  console.log();
 
   return (
     <div>
       <button
         onClick={async () => {
-          console.log(props);
-          const response = await fetch(
-            `/api/transcript/${props.transcriptId}`,
-            {
-              method: 'DELETE',
-            },
-          );
+          const response = await fetch(`/api/transcript/${props.transcripts}`, {
+            method: 'DELETE',
+          });
+          console.log(response);
 
           const data = await response.json();
+          console.log(data);
 
           if (data.error) {
             setError(data.error);
             return;
           }
 
-          // router.refresh();
+          router.refresh();
 
           // setAnimals(
           //   animals.filter(

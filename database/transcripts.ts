@@ -97,12 +97,12 @@ export const createTranscript = cache(
 );
 
 export const deleteTranscriptById = cache(async (transcriptId: string) => {
-  const [animal] = await sql<Transcript[]>`
+  const [transcript] = await sql<[Transcript | undefined]>`
     DELETE FROM
       transcripts
     WHERE
       transcript_id = ${transcriptId}
     RETURNING *
   `;
-  return animal;
+  return transcript;
 });
