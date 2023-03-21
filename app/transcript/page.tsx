@@ -16,9 +16,7 @@ export default async function Page() {
   const session =
     sessionTokenCookie &&
     (await getValidSessionByToken(sessionTokenCookie.value));
-
   // if yes redirect to home
-
   // for example you may also check if session user is an admin role
 
   if (!session) {
@@ -65,15 +63,11 @@ export default async function Page() {
     <div className={styles.container}>
       <div className={styles.mainDiv}>
         <h1>Transcript Page</h1>
+        {/* <GetVideo children={undefined} /> */}
+        <TranscriptForm />
         <div className={styles.divOne}>
-          <div className={styles.divOneLeft}>
-            <TranscriptForm />
-            {/* <GetVideo children={undefined} /> */}
-          </div>
           <div className={styles.divOneRight}>
-            <div className={styles.transcriptContainer}>
-              <p>{fileContents}</p>
-            </div>
+            <p>{fileContents}</p>
           </div>
         </div>
       </div>

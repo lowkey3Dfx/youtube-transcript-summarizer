@@ -2,8 +2,8 @@ from youtube_transcript_api import YouTubeTranscriptApi
 import os
 import sys
 
-videoUrl = '';
-videoId = videoUrl.split('v=')[1];
+# videoId = sys.argv[1];
+videoId = "03iSjMQ3a1U"
 # Captures output of subtitles
 outls = []
 

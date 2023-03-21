@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import YouTube from 'react-youtube';
+import styles from './page.module.scss';
 
 export default function TranscriptForm() {
   const [url, setUrl] = useState('');
@@ -29,8 +30,6 @@ export default function TranscriptForm() {
         setVideoId(items[0].id);
         setVideo(snippet);
 
-        console.log('video string', video.title);
-
         router.refresh();
       } else {
         return undefined;
@@ -49,66 +48,70 @@ export default function TranscriptForm() {
     },
   };
 
-  console.log(video.title);
   return (
-    <div>
-      <input
-        value={url}
-        placeholder="URL..."
-        onChange={(event) => setUrl(event.currentTarget.value)}
-      />
-      <button onClick={getYtFetch}>Go</button>
-      <button onClick={() => setUrl('')}>Clear</button>
-      <button
-        onClick={async () => {
-          console.log('clicked');
-          const response = await fetch('/api/transcript', {
-            method: 'POST',
-            body: JSON.stringify({
-              userId: userId,
-              transcriptId: videoId,
-              fullTranscript: video.publishedAt,
-              summary: video.description,
-              channelId: video.channelId,
-              channelTitle: video.channelTitle,
-              channelLogo: video.thumbnails.standard.url,
-              videoTitle: video.title,
-              videoDescription: video.description,
-              thumbnail: video.thumbnails.standard.url,
-              videoTags: video.tags,
-            }),
-          });
-
-          console.log('dataorsmth', response);
-          const data = await response.json();
-
-          if (data.error) {
-            setError(data.error);
-            return;
-          }
-          // you should use this
-          // router.refresh();
-
-          // setAnimals([...animals, data.animal]);
-        }}
-      >
-        Add to Gallery
-      </button>
-      {videoId === urlVideoId && url !== videoId ? (
-        <div>
-          <p>Video Title: {video.title}</p>
+    <div className={styles.container}>
+      <div className={styles.mainDiv}>
+        <div className={styles.divOne}>
           <div>
-            <YouTube videoId={videoId} opts={opts} />
+            <input
+              value={url}
+              placeholder="URL..."
+              onChange={(event) => setUrl(event.currentTarget.value)}
+            />
+            <button onClick={getYtFetch}>Go</button>
+            <button onClick={() => setUrl('')}>Clear</button>
+            <button
+              onClick={async () => {
+                const response = await fetch('/api/transcript', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    userId: userId,
+                    transcriptId: videoId,
+                    fullTranscript: video.publishedAt,
+                    summary: video.description,
+                    channelId: video.channelId,
+                    channelTitle: video.channelTitle,
+                    channelLogo: video.thumbnails.standard.url,
+                    videoTitle: video.title,
+                    videoDescription: video.description,
+                    thumbnail: video.thumbnails.standard.url,
+                    videoTags: video.tags,
+                  }),
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                  setError(data.error);
+                  return;
+                }
+
+                router.refresh();
+              }}
+            >
+              Add to Gallery
+            </button>
           </div>
-          <p>Channel Title: {video.channelTitle}</p>
-          <p>Description: {video.description}</p>
-          <p>Video ID: {videoId}</p>
-          <p>Channel ID: {video.channelId}</p>
-          <p>Video Tags: {video.tags}</p>
-          <img src={video.thumbnails.standard.url} alt={video.title} />
-          <p>Thumbnail URL: {video.thumbnails.standard.url}</p>
+
+          <div className={styles.divOneLeft}>
+            {videoId === urlVideoId && url !== videoId ? (
+              <div>
+                <p>Video Title: {video.title}</p>
+                <div>
+                  <YouTube videoId={videoId} opts={opts} />
+                </div>
+                <p>Channel Title: {video.channelTitle}</p>
+                <p>Description: {video.description}</p>
+                <p>Video ID: {videoId}</p>
+                <p>Channel ID: {video.channelId}</p>
+                <p>Video Tags: {video.tags}</p>
+                <img src={video.thumbnails.standard.url} alt={video.title} />
+                <p>Thumbnail URL: {video.thumbnails.standard.url}</p>
+              </div>
+            ) : undefined}
+          </div>
         </div>
-      ) : undefined}
+      </div>
     </div>
   );
 }
