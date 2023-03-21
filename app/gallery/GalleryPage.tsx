@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import router from 'next/router';
 import { useState } from 'react';
 
@@ -11,6 +12,7 @@ type Props = {
 export default function GalleryPage(props: Props) {
   // const [transcripts, setTranscripts] = useState<Transcript[]>(
   //   props.transcripts,
+  const router = useRouter();
 
   const [error, setError] = useState<string>();
 

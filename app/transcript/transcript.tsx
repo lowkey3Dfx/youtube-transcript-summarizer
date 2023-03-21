@@ -22,7 +22,7 @@ export default function GetVideo({ children }: Props) {
   const [thumbnail, setThumbnail] = useState('');
   const [videoTags, setVideoTags] = useState('');
   const [transcriptId, setTranscriptId] = useState(videoId);
-  const [error, setError] = useState<string>();
+
   const userId = 4;
   const channelLogo = 'channel logo';
   const fullTranscript = 'full Transcript';
@@ -143,3 +143,33 @@ export default function GetVideo({ children }: Props) {
     </div>
   );
 }
+// onClick={async () => {
+//   const response = await fetch('/api/transcript', {
+//     method: 'POST',
+//     body: JSON.stringify({
+//       userId,
+//       videoId,
+//       video.publishedAt,
+//       video.description,
+//       video.channelId,
+//       video.channelTitle,
+//       video.thumbnails.standard.url,
+//       video.title,
+//       video.description,
+//       video.thumbnails.standard.url,
+//       video.tags,
+//     }),
+//   });
+
+//   const data = await response.json();
+//   console.log(data);
+
+//   if (data.error) {
+//     setError(data.error);
+//     return;
+//   }
+// you should use this
+// router.refresh();
+
+// setAnimals([...animals, data.animal]);
+// }}
