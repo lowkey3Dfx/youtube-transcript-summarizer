@@ -72,12 +72,17 @@
       .divOneRight {
         display: flex;
         flex-direction: column;
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-height: 80vh;
+
         max-width: 270px;
         gap: 8px;
         background-color: rgba(255, 255, 255, 0.64);
         border-radius: 8px;
         margin: 12px;
         padding: 32px;
+        max-width: 270px;
 
         h2 {
           font-size: 0.9rem;

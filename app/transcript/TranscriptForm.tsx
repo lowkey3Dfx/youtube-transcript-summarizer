@@ -4,7 +4,11 @@ import { useState } from 'react';
 import YouTube from 'react-youtube';
 import styles from './page.module.scss';
 
-export default function TranscriptForm() {
+type Props = {
+  fileContents: string;
+};
+
+export default function TranscriptForm(props: Props) {
   const [url, setUrl] = useState('');
   const [video, setVideo] = useState('');
   const [videoId, setVideoId] = useState('');
@@ -30,6 +34,14 @@ export default function TranscriptForm() {
         setVideoId(items[0].id);
         setVideo(snippet);
 
+        // fetch POST request to API to send videoId value
+        // const response2 = await fetch('/api/video', {
+        //   method: 'POST',
+        //   body: JSON.stringify({
+        //     videoId: videoId,
+        //   }),
+        // });
+
         router.refresh();
       } else {
         return undefined;
@@ -51,64 +63,69 @@ export default function TranscriptForm() {
   return (
     <div className={styles.container}>
       <div className={styles.mainDiv}>
+        <h1>Transcript Page</h1>
         <div className={styles.divOne}>
-          <div>
+          <div className={styles.inputField}>
             <input
               value={url}
               placeholder="URL..."
               onChange={(event) => setUrl(event.currentTarget.value)}
             />
-            <button onClick={getYtFetch}>Go</button>
-            <button onClick={() => setUrl('')}>Clear</button>
-            <button
-              onClick={async () => {
-                const response = await fetch('/api/transcript', {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    userId: userId,
-                    transcriptId: videoId,
-                    fullTranscript: video.publishedAt,
-                    summary: video.description,
-                    channelId: video.channelId,
-                    channelTitle: video.channelTitle,
-                    channelLogo: video.thumbnails.standard.url,
-                    videoTitle: video.title,
-                    videoDescription: video.description,
-                    thumbnail: video.thumbnails.standard.url,
-                    videoTags: video.tags,
-                  }),
-                });
+            <div className={styles.buttons}>
+              <button onClick={getYtFetch}>Go</button>
+              <button onClick={() => setUrl('')}>Clear</button>
+              <button
+                onClick={async () => {
+                  const response = await fetch('/api/transcript', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      userId: userId,
+                      transcriptId: videoId,
+                      fullTranscript: props.fileContents,
+                      summary: video.description,
+                      channelId: video.channelId,
+                      channelTitle: video.channelTitle,
+                      channelLogo: video.thumbnails.standard.url,
+                      videoTitle: video.title,
+                      videoDescription: video.description,
+                      thumbnail: video.thumbnails.standard.url,
+                      videoTags: video.tags,
+                    }),
+                  });
 
-                const data = await response.json();
+                  const data = await response.json();
 
-                if (data.error) {
-                  setError(data.error);
-                  return;
-                }
+                  if (data.error) {
+                    setError(data.error);
+                    return;
+                  }
 
-                router.refresh();
-              }}
-            >
-              Add to Gallery
-            </button>
+                  router.refresh();
+                }}
+              >
+                Add to Gallery
+              </button>
+            </div>
           </div>
-
-          <div className={styles.divOneLeft}>
-            {videoId === urlVideoId && url !== videoId ? (
-              <div>
-                <p>Video Title: {video.title}</p>
+          <div className={styles.innerContainer}>
+            <div className={styles.divOneLeft}>
+              {videoId === urlVideoId && url !== videoId ? (
                 <div>
-                  <YouTube videoId={videoId} opts={opts} />
+                  <p>Video Title: {video.title}</p>
+                  <div>
+                    <YouTube videoId={videoId} opts={opts} />
+                  </div>
+                  <p>Channel Title: {video.channelTitle}</p>
+                  <p>Description: {video.description}</p>
+                  <p>Video ID: {videoId}</p>
+                  <p>Channel ID: {video.channelId}</p>
+                  <p>Video Tags: {video.tags}</p>
+                  <img src={video.thumbnails.standard.url} alt={video.title} />
+                  <p>Thumbnail URL: {video.thumbnails.standard.url}</p>
                 </div>
-                <p>Channel Title: {video.channelTitle}</p>
-                <p>Description: {video.description}</p>
-                <p>Video ID: {videoId}</p>
-                <p>Channel ID: {video.channelId}</p>
-                <p>Video Tags: {video.tags}</p>
-                <img src={video.thumbnails.standard.url} alt={video.title} />
-                <p>Thumbnail URL: {video.thumbnails.standard.url}</p>
-              </div>
-            ) : undefined}
+              ) : undefined}
+            </div>
+            <div className={styles.divOneRight}>{props.fileContents}</div>
           </div>
         </div>
       </div>

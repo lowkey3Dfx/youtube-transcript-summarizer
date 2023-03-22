@@ -7,8 +7,6 @@ import {
 import GetVideo from './GetVideo';
 import styles from './page.module.scss';
 
-const fs = require('node:fs');
-
 type Props = {
   params: {
     transcriptId: string;
@@ -30,36 +28,6 @@ export default async function TranscriptPage(props: Props) {
   if (!singleTranscript) {
     notFound();
   }
-
-  function getFileContents(transcriptPath: string) {
-    // function to run tget.py and generate text file with transcript
-    function runPythonScript(): void {
-      exec('python3 app/getTranscript/tget.py', (error, stdout, stderr) => {
-        if (error) {
-          console.error(`exec error: ${error}`);
-          return;
-        }
-        console.log(`stdout: ${stdout}`);
-        console.error(`stderr: ${stderr}`);
-      });
-    }
-
-    try {
-      // Check if file exists
-      if (fs.existsSync('app/getTranscript/op.txt')) {
-        // Read file contents
-        const contents = fs.readFileSync('app/getTranscript/op.txt', 'utf-8');
-        return contents;
-      } else {
-        runPythonScript();
-      }
-    } catch (err) {
-      console.error(err);
-      return undefined;
-    }
-  }
-
-  const fileContents = getFileContents('./op.txt');
 
   return (
     <div>
@@ -91,7 +59,7 @@ export default async function TranscriptPage(props: Props) {
             </div>
             <div className={styles.divOneRight}>
               <h2>Transcript</h2>
-              <p>{fileContents}</p>
+              <p>{singleTranscript.fullTranscript}</p>
             </div>
           </div>
         </div>

@@ -20,7 +20,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function Page() {
   const transcripts = await getTranscripts();
-  // console.log(transcripts);
+  const reversedTranscript = transcripts.reverse();
 
   return (
     <main className={styles.pageMain}>
@@ -28,7 +28,7 @@ export default async function Page() {
         <h1>Gallery</h1>
         <div className={styles.divOne}>
           <div className={styles.container}>
-            {transcripts.map((data) => {
+            {reversedTranscript.map((data) => {
               // console.log(data);
               // console.log(data.video_title);
               return (

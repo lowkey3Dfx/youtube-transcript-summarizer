@@ -40,7 +40,7 @@
       border-radius: 4px;
       text-align: center;
       padding: 2px;
-      margin-left: 14px;
+      margin: 14px;
     }
     & button:hover {
       cursor: pointer;
@@ -65,6 +65,7 @@
         .divTwo {
           display: flex;
           flex-direction: column;
+          max-height: 420px;
           gap: 8px;
           background-color: rgba(255, 255, 255, 0.64);
           border-radius: 8px;

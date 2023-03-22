@@ -1,7 +1,8 @@
-import { exec } from 'node:child_process';
+import { execa } from 'execa';
 import { cookies } from 'next/headers';
 import { redirect, useRouter } from 'next/navigation';
 import { getValidSessionByToken } from '../../database/sessions';
+import { getVideoId } from '../../util/database';
 import styles from './page.module.scss';
 import GetVideo from './transcript';
 import TranscriptForm from './TranscriptForm';
@@ -24,51 +25,31 @@ export default async function Page() {
     redirect('/login?returnTo=/transcript');
   }
 
-  // use 'readFileSync' method of the 'fs' module to read the file and return its contents as sting
-  // const transcriptPath = 'app/getTranscript/op.txt';
-  // const transcriptContent = fs.readFileSync(transcriptPath, 'utf8');
+  const videoId = await getVideoId();
+  console.log(videoId);
+  // const videoId = 'dQw4w9WgXcQ';
 
-  function getFileContents(transcriptPath: string) {
-    // function to run tget.py and generate text file with transcript
-    function runPythonScript(): void {
-      exec('python3 app/getTranscript/tget.py', (error, stdout, stderr) => {
-        if (error) {
-          console.error(`exec error: ${error}`);
-          return;
-        }
-        console.log(`stdout: ${stdout}`);
-        console.error(`stderr: ${stderr}`);
-      });
-    }
+  // await console standart output from python script and set ad fileContents
+  async function runPythonScript(videoId: string) {
+    const command = ['app/getTranscript/tget.py', videoId];
+    const { stdout } = await execa('python3', command);
 
-    try {
-      // Check if file exists
-      if (fs.existsSync('app/getTranscript/op.txt')) {
-        // Read file contents
-        const contents = fs.readFileSync('app/getTranscript/op.txt', 'utf-8');
-        return contents;
-      } else {
-        runPythonScript();
-      }
-    } catch (err) {
-      console.error(err);
-      return undefined;
-    }
+    // console.log(stdout);
+    return stdout;
   }
 
-  const fileContents = getFileContents('./op.txt');
-  // console.log(fileContents); // Will log file contents or undefined if file doesn't exist
+  // run runPythonScript function and pass videoId variable as argument
+  const fileContents = await runPythonScript(videoId);
+
+  // console.log('fileContents: ', fileContents);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.mainDiv}>
-        <h1>Transcript Page</h1>
+    <div>
+      <div>
         {/* <GetVideo children={undefined} /> */}
-        <TranscriptForm />
-        <div className={styles.divOne}>
-          <div className={styles.divOneRight}>
-            <p>{fileContents}</p>
-          </div>
+        <TranscriptForm fileContents={fileContents} />
+        <div>
+          <div>{/* <p>{fileContents}</p> */}</div>
         </div>
       </div>
     </div>
