@@ -2,6 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import YouTube from 'react-youtube';
+import { getVideoId } from '../../util/database';
 import styles from './page.module.scss';
 
 type Props = {
@@ -13,6 +14,7 @@ export default function TranscriptForm(props: Props) {
   const [video, setVideo] = useState('');
   const [videoId, setVideoId] = useState('');
   const [error, setError] = useState<string>();
+  const [fullTranscript, setFullTranscript] = useState('');
   const userId = 1;
 
   const youTubeVideoId = require('youtube-video-id');
@@ -34,20 +36,26 @@ export default function TranscriptForm(props: Props) {
         setVideoId(items[0].id);
         setVideo(snippet);
 
-        // fetch POST request to API to send videoId value
-        // const response2 = await fetch('/api/video', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({
-        //     videoId: videoId,
-        //   })
-        //     .then((response) => response.json())
-        //     .then((data) => console.log(data))
-        //     .catch((error) => console.error(error)),
-        // });
+        // const newId = await getVideoId();
+        // console.log('new Id', newId);
 
+        // fetch POST request to API to send videoId value
+        const response2 = await fetch('/api/video', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            videoId: videoId,
+          }),
+
+          // .then((response) => response.json())
+          // .then((data) => console.log(data))
+          // .catch((error) => console.error(error)),
+        });
+        const data2 = await response2.json();
+        setFullTranscript(data2);
+        // console.log(response2.json());
         router.refresh();
       } else {
         return undefined;
@@ -114,6 +122,7 @@ export default function TranscriptForm(props: Props) {
             </div>
           </div>
           <div className={styles.innerContainer}>
+            <p>{fullTranscript.fullTranscript}</p>
             <div className={styles.divOneLeft}>
               {videoId === urlVideoId && url !== videoId ? (
                 <div>

@@ -42,6 +42,16 @@ export default async function TranscriptPage(props: Props) {
                     transcriptId: videoId,
                   }}
                 />
+              </div>
+              <div>Note Taling Feature</div>
+            </div>
+            <div className={styles.divOneRight}>
+              <div className={styles.divOneRightOne}>
+                <h2>Transcript</h2>
+                <p>{singleTranscript.fullTranscript}</p>
+              </div>
+              <div className={styles.divOneRightTwo}>
+                <h2>Additional Video Information</h2>
                 <h2>Channel: {singleTranscript.channelTitle}</h2>
 
                 <p>{singleTranscript.videoDescription}</p>
@@ -50,16 +60,12 @@ export default async function TranscriptPage(props: Props) {
                 <img
                   src={singleTranscript.thumbnail}
                   alt="thumbnail"
-                  height={480}
-                  width={640}
+                  height={240}
+                  width={320}
                 />
                 <p>Thumbnail url: {singleTranscript.thumbnail}</p>
                 <p>Video tags: {singleTranscript.videotags}</p>
               </div>
-            </div>
-            <div className={styles.divOneRight}>
-              <h2>Transcript</h2>
-              <p>{singleTranscript.fullTranscript}</p>
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     margin: 80px 162px;
-    border-radius: 2px;
+    border-radius: 10px;
 
     h1 {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
@@ -72,25 +72,52 @@
       .divOneRight {
         display: flex;
         flex-direction: column;
-        overflow-x: hidden;
-        overflow-y: auto;
-        max-height: 80vh;
+        .divOneRightOne {
+          overflow-x: hidden;
+          overflow-y: auto;
+          max-height: 80vh;
 
-        max-width: 270px;
-        gap: 8px;
-        background-color: rgba(255, 255, 255, 0.64);
-        border-radius: 8px;
-        margin: 12px;
-        padding: 32px;
-        max-width: 270px;
+          max-width: 270px;
+          gap: 8px;
+          background-color: rgba(255, 255, 255, 0.64);
+          border-radius: 8px;
+          margin: 12px;
+          padding: 32px;
+          max-width: 270px;
 
-        h2 {
-          font-size: 0.9rem;
-          font-weight: 400;
+          h2 {
+            font-size: 0.9rem;
+            font-weight: 400;
+          }
+          p {
+            font-size: 0.9rem;
+            text-align: left;
+          }
         }
-        p {
-          font-size: 0.9rem;
-          text-align: left;
+        .divOneRightTwo {
+          display: flex;
+          flex-direction: column;
+
+          overflow-x: hidden;
+          overflow-y: auto;
+          max-height: 80vh;
+
+          max-width: 270px;
+          gap: 8px;
+          background-color: rgba(255, 255, 255, 0.64);
+          border-radius: 8px;
+          margin: 12px;
+          padding: 32px;
+          max-width: 270px;
+
+          h2 {
+            font-size: 0.9rem;
+            font-weight: 400;
+          }
+          p {
+            font-size: 0.9rem;
+            text-align: left;
+          }
         }
       }
     }

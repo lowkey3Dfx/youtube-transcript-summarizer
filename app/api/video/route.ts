@@ -1,18 +1,24 @@
 import { NextResponse } from 'next/server';
+import { runPythonScript } from '../../../util/database';
 
 // GET request
-export async function GET(request: Request) {
-  // tasks to get videoId
-  const videoId = '03iSjMQ3a1U';
+// export async function GET(request: Request) {
+//   // tasks to get videoId
+//   const videoId = 'n7rYcJbJq9w';
+//   const fullTranscript = await runPythonScript(videoId);
 
-  return NextResponse.json({ videoId: videoId });
-}
+//   return NextResponse.json({ fullTranscript: fullTranscript });
+// }
 
 // // POST request
 export async function POST(request: Request) {
   // tasks to get videoId
+  const body = await request.json();
+  console.log('POST body', body.videoId);
+  // const videoId =  body.videoId;
+  const fullTranscript = await runPythonScript(body.videoId);
 
-  return NextResponse.json({ videoId: videoId });
+  return NextResponse.json({ fullTranscript: fullTranscript });
 }
 // export async function POST(request: Request) {
 // // tasks to get videoId

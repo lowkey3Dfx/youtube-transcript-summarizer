@@ -2,7 +2,8 @@ import { execa } from 'execa';
 import { cookies } from 'next/headers';
 import { redirect, useRouter } from 'next/navigation';
 import { getValidSessionByToken } from '../../database/sessions';
-// import { getVideoId } from '../../util/database';
+import { getVideoId } from '../../util/database';
+
 import styles from './page.module.scss';
 import GetVideo from './transcript';
 import TranscriptForm from './TranscriptForm';
@@ -23,25 +24,25 @@ export default async function Page() {
     redirect('/login?returnTo=/transcript');
   }
 
-  async function getVideoId() {
-    try {
-      const response = await fetch('http://localhost:3000/api/video');
-      console.log(response);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      console.log(data);
-      // returning videoId from response
-      return data.videoId;
-    } catch (error) {
-      console.error('There was a error:', error);
-    }
-  }
+  // async function getVideoId() {
+  //   try {
+  //     const response = await fetch('http://localhost:3000/api/video');
+  //     console.log(response);
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok');
+  //     }
+  //     const data = await response.json();
+  //     // console.log(data);
+  //     // returning videoId from response
+  //     return data.videoId;
+  //   } catch (error) {
+  //     console.error('There was a error:', error);
+  //   }
+  // }
 
   const videoId = await getVideoId();
   // const videoId = 'dQw4w9WgXcQ';
-  console.log(videoId);
+  // console.log('server component', videoId);
 
   // await console standard output from python script and set ad fileContents
   async function runPythonScript(videoId: string) {
