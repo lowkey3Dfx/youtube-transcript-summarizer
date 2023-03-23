@@ -33,9 +33,9 @@ export default async function TranscriptPage(props: Props) {
     <div>
       <div className={styles.container}>
         <div className={styles.mainDiv}>
+          <h1>{singleTranscript.videoTitle}</h1>
           <div className={styles.divOne}>
             <div className={styles.divOneLeft}>
-              <h1>{singleTranscript.videoTitle}</h1>
               <div>
                 <GetVideo
                   params={{

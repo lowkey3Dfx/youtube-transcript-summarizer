@@ -1,12 +1,10 @@
 .pageMain {
-  padding-left: auto;
-
   .mainDiv {
     background-color: rgba(208, 208, 208, 0.193);
     backdrop-filter: blur(5px);
     display: flex;
     flex-direction: column;
-    margin: 80px 162px;
+    margin: 80px 120px;
 
     border-radius: 10px;
 
@@ -58,8 +56,8 @@
         align-items: center;
         flex-wrap: wrap;
         justify-content: center;
-        padding: 20px 20px;
-        gap: 20px;
+        padding: 20px 0px;
+        gap: 44px;
 
         .divTwo {
           display: flex;

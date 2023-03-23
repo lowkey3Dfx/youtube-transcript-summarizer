@@ -48,14 +48,10 @@ export default function TranscriptForm(props: Props) {
           body: JSON.stringify({
             videoId: videoId,
           }),
-
-          // .then((response) => response.json())
-          // .then((data) => console.log(data))
-          // .catch((error) => console.error(error)),
         });
+        // console.log(response2.json());
         const data2 = await response2.json();
         setFullTranscript(data2);
-        // console.log(response2.json());
         router.refresh();
       } else {
         return undefined;
@@ -95,7 +91,7 @@ export default function TranscriptForm(props: Props) {
                     body: JSON.stringify({
                       userId: userId,
                       transcriptId: videoId,
-                      fullTranscript: props.fileContents,
+                      fullTranscript: fullTranscript.fullTranscript,
                       summary: video.description,
                       channelId: video.channelId,
                       channelTitle: video.channelTitle,
@@ -122,7 +118,6 @@ export default function TranscriptForm(props: Props) {
             </div>
           </div>
           <div className={styles.innerContainer}>
-            <p>{fullTranscript.fullTranscript}</p>
             <div className={styles.divOneLeft}>
               {videoId === urlVideoId && url !== videoId ? (
                 <div>
@@ -140,7 +135,9 @@ export default function TranscriptForm(props: Props) {
                 </div>
               ) : undefined}
             </div>
-            <div className={styles.divOneRight}>{props.fileContents}</div>
+            <div className={styles.divOneRight}>
+              {fullTranscript.fullTranscript}
+            </div>
           </div>
         </div>
       </div>

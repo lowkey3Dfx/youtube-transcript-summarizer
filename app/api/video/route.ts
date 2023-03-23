@@ -14,9 +14,9 @@ import { runPythonScript } from '../../../util/database';
 export async function POST(request: Request) {
   // tasks to get videoId
   const body = await request.json();
-  console.log('POST body', body.videoId);
-  // const videoId =  body.videoId;
-  const fullTranscript = await runPythonScript(body.videoId);
+  // console.log('POST body', body.videoId);
+  const videoId = body.videoId;
+  const fullTranscript = await runPythonScript(videoId);
 
   return NextResponse.json({ fullTranscript: fullTranscript });
 }
