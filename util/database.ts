@@ -1,6 +1,7 @@
 export async function getVideoId() {
   try {
-    const response = await fetch('http://localhost:3000/api/video');
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/video`;
+    const response = await fetch(url);
     console.log(response);
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -13,3 +14,6 @@ export async function getVideoId() {
     console.error('There was a error:', error);
   }
 }
+
+// const response = await fetch('http://localhost:3000/api/video');
+// console.log(url);

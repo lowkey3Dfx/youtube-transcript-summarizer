@@ -37,9 +37,15 @@ export default function TranscriptForm(props: Props) {
         // fetch POST request to API to send videoId value
         // const response2 = await fetch('/api/video', {
         //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
         //   body: JSON.stringify({
         //     videoId: videoId,
-        //   }),
+        //   })
+        //     .then((response) => response.json())
+        //     .then((data) => console.log(data))
+        //     .catch((error) => console.error(error)),
         // });
 
         router.refresh();

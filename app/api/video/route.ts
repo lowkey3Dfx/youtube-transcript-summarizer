@@ -1,26 +1,29 @@
 import { NextResponse } from 'next/server';
-import { getVideoId } from '../../../util/database';
 
 // GET request
 export async function GET(request: Request) {
   // tasks to get videoId
-
-  const videoId = 'GVT3WUa-48Y';
+  const videoId = '03iSjMQ3a1U';
 
   return NextResponse.json({ videoId: videoId });
 }
 
-// POST request
-// export async function POST(request: Request) {
-//   // tasks to get videoId
-//   // const response = await getVideoId() {
-//   //   videoId: body.videoId;
+// // POST request
+export async function POST(request: Request) {
+  // tasks to get videoId
 
-//   // })
-//   // if (!videoId) {
-//   //   res.status(500).send({ errors: [{ message: 'videoId false' }] });
-//   //   return;
-//   // }
+  return NextResponse.json({ videoId: videoId });
+}
+// export async function POST(request: Request) {
+// // tasks to get videoId
+// const response = await getVideoId() {
+//   videoId: body.videoId;
+
+// }
+// if (!videoId) {
+//   res.status(500).send({ errors: [{ message: 'videoId false' }] });
+//   return;
+// }
 
 //   return NextResponse.json({ videoId: videoId });
 // }

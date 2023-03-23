@@ -44,9 +44,11 @@ export default async function Page() {
                       height="240"
                     />
                   </Link>
-                  <Link href={`/transcript/${data.transcriptId}`}>
-                    <h2>{data.videoTitle}</h2>
-                  </Link>
+                  <div className={styles.h2Div}>
+                    <Link href={`/transcript/${data.transcriptId}`}>
+                      <h2>{data.videoTitle}</h2>
+                    </Link>
+                  </div>
                   <div className={styles.channelInfo}>
                     <img
                       src={data.thumbnail}
