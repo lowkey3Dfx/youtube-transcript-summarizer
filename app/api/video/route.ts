@@ -16,6 +16,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   // console.log('POST body', body.videoId);
   const videoId = body.videoId;
+  // console.log('route videoId', videoId);
   const fullTranscript = await runPythonScript(videoId);
 
   return NextResponse.json({ fullTranscript: fullTranscript });

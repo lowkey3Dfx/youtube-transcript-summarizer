@@ -24,6 +24,7 @@ export default async function TranscriptPage(props: Props) {
   // console.log(props);
 
   const videoId = props.params.transcriptId;
+  // console.log('Marker S', singleTranscript);
 
   if (!singleTranscript) {
     notFound();
@@ -43,7 +44,7 @@ export default async function TranscriptPage(props: Props) {
                   }}
                 />
               </div>
-              <div>Note Taling Feature</div>
+              <div>Note taking feature coming soon</div>
             </div>
             <div className={styles.divOneRight}>
               <div className={styles.divOneRightOne}>
@@ -60,8 +61,8 @@ export default async function TranscriptPage(props: Props) {
                 <img
                   src={singleTranscript.thumbnail}
                   alt="thumbnail"
-                  height={240}
-                  width={320}
+                  height={150}
+                  width={200}
                 />
                 <p>Thumbnail url: {singleTranscript.thumbnail}</p>
                 <p>Video tags: {singleTranscript.videotags}</p>
