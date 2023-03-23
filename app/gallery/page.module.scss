@@ -40,7 +40,6 @@
       border-radius: 4px;
       text-align: center;
       padding: 2px;
-      margin: 14px;
     }
     & button:hover {
       cursor: pointer;
@@ -71,6 +70,30 @@
           border-radius: 8px;
           margin: 12px;
           padding: 14px 0 0 0;
+
+          .buttonAndIdContainer {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 0 0 8px 8px;
+            background-color: rgba(0, 0, 0, 0.433);
+            padding: 8px;
+
+            div {
+              span {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-width: 24px;
+                min-height: 24px;
+                text-align: center;
+                border-radius: 50%;
+                font-size: 0.8rem;
+                background-color: black;
+                color: white;
+              }
+            }
+          }
 
           a {
             display: flex;

@@ -58,7 +58,7 @@ export default async function Page() {
                     />
                     <p>{data.channelTitle}</p>
                   </div>
-                  <GalleryPage transcripts={data.transcriptId} />
+                  <GalleryPage transcripts={data} />
                 </div>
               );
             })}

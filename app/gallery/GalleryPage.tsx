@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import router from 'next/router';
 import { useState } from 'react';
+import { getTranscriptByTranscriptId } from '../../database/transcripts';
+import styles from './page.module.scss';
 
 type Props = {
   transcripts: Transcript[];
@@ -13,22 +15,25 @@ export default function GalleryPage(props: Props) {
   // const [transcripts, setTranscripts] = useState<Transcript[]>(
   //   props.transcripts,
   const router = useRouter();
+  const transcriptId = props.transcripts.transcriptId;
+  // console.log(transcriptId);
 
   const [error, setError] = useState<string>();
 
-  console.log();
-
   return (
-    <div>
+    <div className={styles.buttonAndIdContainer}>
+      <div>
+        <span>{props.transcripts.id}</span>
+      </div>
       <button
         onClick={async () => {
-          const response = await fetch(`/api/transcript/${props.transcripts}`, {
+          const response = await fetch(`/api/transcript/${transcriptId}`, {
             method: 'DELETE',
           });
-          console.log(response);
+          console.log(props.transcripts);
 
           const data = await response.json();
-          console.log(data);
+          // console.log(data);
 
           if (data.error) {
             setError(data.error);
@@ -36,12 +41,6 @@ export default function GalleryPage(props: Props) {
           }
 
           router.refresh();
-
-          // setAnimals(
-          //   animals.filter(
-          //     (animalOnState) => animalOnState.id !== data.animal.id,
-          //   ),
-          // );
         }}
       >
         Delete
