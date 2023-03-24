@@ -54,8 +54,39 @@ export default function TranscriptForm(props: Props) {
       }
     }
 
+    async function postVideoIdData() {
+      try {
+        const response = await fetch('/api/video', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            videoId,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch transcript data');
+        }
+
+        const fullTranscriptResponse = await response.json();
+        // console.log('Marker R', videoId);
+        // console.log('Marker V', fullTranscriptResponse);
+        setFullTranscript(fullTranscriptResponse.fullTranscript);
+
+        router.refresh();
+      } catch (err) {
+        console.error(err);
+        setError('Error fetching transcript data');
+      }
+    }
+
     getYoutubeData();
-  }, [urlVideoId]);
+    if (videoId) {
+      postVideoIdData();
+    }
+  }, [urlVideoId, videoId]);
 
   async function addToGallery() {
     try {
@@ -90,34 +121,6 @@ export default function TranscriptForm(props: Props) {
     }
   }
 
-  async function postVideoIdData() {
-    try {
-      const response = await fetch('/api/video', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          videoId,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch transcript data');
-      }
-
-      const fullTranscriptResponse = await response.json();
-      // console.log('Marker R', videoId);
-      // console.log('Marker V', fullTranscriptResponse);
-      setFullTranscript(fullTranscriptResponse.fullTranscript);
-
-      router.refresh();
-    } catch (err) {
-      console.error(err);
-      setError('Error fetching transcript data');
-    }
-  }
-
   const opts = {
     height: '390',
     width: '640',
@@ -136,9 +139,16 @@ export default function TranscriptForm(props: Props) {
               onChange={(event) => setUrl(event.currentTarget.value)}
             />
             <div className={styles.buttons}>
-              <button onClick={postVideoIdData}>Transcript</button>
               <button onClick={addToGallery}>Add to Gallery</button>
-              <button onClick={() => setUrl('')}>Clear</button>
+              <button
+                onClick={() => {
+                  setUrl('');
+                  setVideoId('');
+                  setFullTranscript('');
+                }}
+              >
+                Clear
+              </button>
             </div>
           </div>
           <div className={styles.innerContainer}>
