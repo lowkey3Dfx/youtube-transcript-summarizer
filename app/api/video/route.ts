@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { runPythonScript } from '../../../util/database';
 
+type = {};
+
 // GET request
 // export async function GET(request: Request) {
 //   // tasks to get videoId
@@ -9,6 +11,8 @@ import { runPythonScript } from '../../../util/database';
 
 //   return NextResponse.json({ fullTranscript: fullTranscript });
 // }
+
+// (request: NextRequest): Promise<NextResponse<AnimalResponseBodyPut>>`)
 
 // // POST request
 export async function POST(request: Request) {

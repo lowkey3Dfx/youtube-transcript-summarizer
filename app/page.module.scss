@@ -1,9 +1,11 @@
 .body {
   background-image: url('/redCube_BackgroundImage.png');
-  background-repeat: no-repeat;
 
-  background-color: rgba(208, 208, 208, 0.193);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 0% 50%;
   margin-top: 80px;
+  height: 100vh;
 }
 
 .navbar {
