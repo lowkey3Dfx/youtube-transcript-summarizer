@@ -4,13 +4,13 @@ export async function up(sql) {
   id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   user_id varchar(50),
   transcript_id varchar(60),
-  full_transcript varchar(60000),
-  summary varchar(4000),
+  full_transcript varchar(100000),
+  summary varchar(20000),
   channel_id varchar(50),
   channel_title varchar(50),
   channel_logo varchar(80),
   video_title varchar(100),
-  video_description varchar(4000),
+  video_description varchar(6000),
   thumbnail varchar(80),
   videoTags varchar(400)
   )
