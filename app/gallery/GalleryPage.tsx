@@ -30,7 +30,7 @@ export default function GalleryPage(props: Props) {
           const response = await fetch(`/api/transcript/${transcriptId}`, {
             method: 'DELETE',
           });
-          console.log(props.transcripts);
+          // console.log(props.transcripts);
 
           const data = await response.json();
           // console.log(data);

@@ -2,8 +2,9 @@ import { cookies } from 'next/headers';
 import { redirect, useRouter } from 'next/navigation';
 import { getValidSessionByToken } from '../../database/sessions';
 import styles from './page.module.scss';
-
 import TranscriptForm from './TranscriptForm';
+
+export const dynamic = 'force-dynamic';
 
 // Pages are Server Components by default
 export default async function Page() {
