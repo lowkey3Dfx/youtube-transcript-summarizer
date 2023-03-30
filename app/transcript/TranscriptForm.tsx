@@ -11,6 +11,7 @@ type Video = {
   description: string;
   channelId: string;
   channelTitle: string;
+  channelLogo: string;
   tags: string[];
   thumbnails: {
     standard: {
@@ -21,6 +22,7 @@ type Video = {
 
 export default function TranscriptForm(props: Props) {
   const [url, setUrl] = useState<string>('');
+  const [channelLogo, setChannelLogo] = useState<string>('');
   const [video, setVideo] = useState<Video>();
   const [error, setError] = useState<string>();
   const [fullTranscript, setFullTranscript] = useState<string>('');
@@ -73,9 +75,20 @@ export default function TranscriptForm(props: Props) {
         }
 
         const fullTranscriptResponse = await response.json();
-        // console.log('Marker R', videoId);
-        // console.log('Marker V', fullTranscriptResponse);
+
         setFullTranscript(fullTranscriptResponse.fullTranscript);
+
+        // Fetch channel data
+        const channelId = video?.channelId;
+        if (channelId) {
+          const channelResponse = await fetch(
+            `https://www.googleapis.com/youtube/v3/channels?id=${channelId}&part=snippet&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
+          );
+          const channelData = await channelResponse.json();
+          const channelSnippet = channelData.items[0].snippet;
+          const channelLogoImageUrl = channelSnippet.thumbnails.medium.url;
+          setChannelLogo(channelLogoImageUrl);
+        }
 
         router.refresh();
       } catch (err) {
@@ -92,7 +105,7 @@ export default function TranscriptForm(props: Props) {
 
   async function addToGallery() {
     const userId = props.userId;
-    console.log('marker ID', userId);
+
     try {
       const response = await fetch('/api/transcript', {
         method: 'POST',
@@ -103,7 +116,7 @@ export default function TranscriptForm(props: Props) {
           summary: video?.description,
           channelId: video?.channelId,
           channelTitle: video?.channelTitle,
-          channelLogo: video?.thumbnails.standard.url,
+          channelLogo: channelLogo,
           videoTitle: video?.title,
           videoDescription: video?.description,
           thumbnail: video?.thumbnails.standard.url,
@@ -112,11 +125,11 @@ export default function TranscriptForm(props: Props) {
       });
 
       const data = await response.json();
-      // conditionals gehen nicht durch
+      console.log(response);
 
       if (data.error) {
         setError(data.error);
-        toast.error('Transcript exists in gallery!');
+        // toast.error('Transcript exists in gallery!');
         return;
       }
 
@@ -154,6 +167,7 @@ export default function TranscriptForm(props: Props) {
                     setUrl('');
                     setVideoId('');
                     setFullTranscript('');
+                    setChannelLogo('');
                   }}
                 >
                   Clear

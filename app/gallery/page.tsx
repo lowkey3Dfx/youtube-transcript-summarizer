@@ -67,7 +67,7 @@ export default async function Page() {
                     </div>
                     <div className={styles.channelInfo}>
                       <img
-                        src={data.thumbnail}
+                        src={data.channelLogo}
                         alt={data.channelLogo}
                         width="80"
                         height="60"

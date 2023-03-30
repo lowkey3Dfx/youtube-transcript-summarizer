@@ -65,6 +65,13 @@ export default async function TranscriptPage(props: Props) {
                   width={200}
                 />
                 <p>Thumbnail url: {singleTranscript.thumbnail}</p>
+                <img
+                  src={singleTranscript.channelLogo}
+                  alt="thumbnail"
+                  height={160}
+                  width={160}
+                />
+                <p>Channel Logo url: {singleTranscript.channelLogo}</p>
                 <p>Video tags: {singleTranscript.videotags}</p>
               </div>
             </div>

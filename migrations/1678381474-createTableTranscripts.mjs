@@ -6,13 +6,13 @@ export async function up(sql) {
   transcript_id varchar(60),
   full_transcript varchar(100000),
   summary varchar(20000),
-  channel_id varchar(50),
-  channel_title varchar(50),
-  channel_logo varchar(80),
+  channel_id varchar(100),
+  channel_title varchar(100),
+  channel_logo varchar(300),
   video_title varchar(100),
   video_description varchar(6000),
-  thumbnail varchar(80),
-  videoTags varchar(400)
+  thumbnail varchar(300),
+  videoTags varchar(1000)
   )
 `;
 }

@@ -50,8 +50,6 @@ export const POST = async (request: NextRequest) => {
   // console.log(body);
   // const result = transcriptSchema.safeParse(body);
   const result = body;
-  // console.log('body', body);
-  // console.log(result);
 
   // if (!result.success) {
   //   return NextResponse.json(
@@ -77,6 +75,7 @@ export const POST = async (request: NextRequest) => {
   // checking if the transcript_id exist or not
 
   const transcript = await getTranscriptByTranscriptId(result.transcriptId);
+  console.log('marker t', transcript);
 
   if (transcript) {
     return NextResponse.json(
