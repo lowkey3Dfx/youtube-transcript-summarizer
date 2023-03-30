@@ -41,6 +41,18 @@ export const getTranscriptByUserId = cache(async (userId: number) => {
   return transcript;
 });
 
+export const getTranscriptsByUserIdAndTranscriptId = cache(
+  async (userId: number, transcriptId: string) => {
+    const transcripts = await sql<Transcript[]>`
+    SELECT *
+    FROM transcripts
+    WHERE user_id = ${userId} AND transcript_id = ${transcriptId}
+  `;
+
+    return transcripts;
+  },
+);
+
 // get transcript by transcript_id which is also videoId
 export const getTranscriptByTranscriptId = cache(
   async (transcriptId: string) => {

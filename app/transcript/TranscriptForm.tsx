@@ -125,20 +125,20 @@ export default function TranscriptForm(props: Props) {
       });
 
       const data = await response.json();
-      console.log(response);
 
-      if (data.error) {
-        setError(data.error);
-        // toast.error('Transcript exists in gallery!');
+      if (data.errors && data.errors.length > 0) {
+        setError(data.errors[0].message);
+        toast.error(data.errors[0].message);
         return;
       }
 
       router.refresh();
-    } catch (err) {
-      console.error(err);
+      toast.success('Transcript added to gallery!');
+    } catch (error) {
+      console.error(error);
       setError('Error adding transcript to gallery');
+      toast.error('Failed to add transcript to gallery');
     }
-    toast.success('Transcript added to gallery!');
   }
 
   const opts = {

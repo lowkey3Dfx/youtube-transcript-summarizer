@@ -6,6 +6,7 @@ import {
   getTranscriptByTranscriptId,
   getTranscriptByUserId,
   getTranscripts,
+  getTranscriptsByUserIdAndTranscriptId,
 } from '../../../database/transcripts';
 
 // validate requestBody with zod
@@ -74,15 +75,27 @@ export const POST = async (request: NextRequest) => {
 
   // checking if the transcript_id exist or not
 
-  const transcript = await getTranscriptByTranscriptId(result.transcriptId);
-  console.log('marker t', transcript);
+  const transcriptWithUserId = await getTranscriptsByUserIdAndTranscriptId(
+    result.userId,
+    result.transcriptId,
+  );
 
-  if (transcript) {
+  if (transcriptWithUserId.length > 0) {
     return NextResponse.json(
       { errors: [{ message: 'Transcript exists in Gallery' }] },
       { status: 400 },
     );
   }
+
+  // const transcript = await getTranscriptByTranscriptId(result.transcriptId);
+  // console.log('marker t', transcript.userId, transcript.transcriptId);
+
+  // if (transcriptWithUserId.userId && transcriptWithUserId.transcriptId) {
+  //   return NextResponse.json(
+  //     { errors: [{ message: 'Transcript exists in Gallery' }] },
+  //     { status: 400 },
+  //   );
+  // }
 
   // 3. create transcript
   const newTranscript = await createTranscript(

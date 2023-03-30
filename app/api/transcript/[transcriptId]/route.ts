@@ -76,7 +76,7 @@ export const DELETE = async (
   { params }: { params: Record<string, string | string[]> },
 ) => {
   const transcriptId = params.transcriptId;
-  console.log(params);
+  // console.log(params);
 
   if (!transcriptId) {
     return NextResponse.json(
