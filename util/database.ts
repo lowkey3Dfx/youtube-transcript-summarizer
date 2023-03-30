@@ -18,7 +18,7 @@ import { execa } from 'execa';
 // }
 
 export async function runPythonScript(videoId: string) {
-  const command = ['app/getTranscript/tget.py', videoId];
+  const command = ['scripts/tget.py', videoId];
   const { stdout } = await execa('python3', command);
 
   // console.log(stdout);

@@ -10,6 +10,7 @@ processes = []
 
 [env]
   PORT = "8080"
+  YOUTUBE_API_KEY = "@YOUTUBE_API_KEY"
 
 [experimental]
   allowed_public_ports = []

@@ -14,7 +14,8 @@ RUN yarn build
 FROM node:18-alpine AS runner
 ENV NODE_ENV production
 # Install necessary tools
-RUN apk add bash postgresql
+RUN apk add bash postgresql python3 py3-pip
+RUN pip install youtube_transcript_api
 WORKDIR /app
 
 # Copy built app

@@ -38,7 +38,7 @@ export default function TranscriptForm(props: Props) {
           const response = await fetch(
             `https://www.googleapis.com/youtube/v3/videos?id=${urlVideoId}&part=snippet&key=${process.env.NEXT_PUBLIC_YOUTUBE_API_KEY}`,
           );
-          console.log(process.env.NEXT_PUBLIC_YOUTUBE_API_KEY);
+
           const data = await response.json();
           const items = data.items;
           const snippet = items[0].snippet;
