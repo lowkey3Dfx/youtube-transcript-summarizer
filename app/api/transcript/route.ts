@@ -50,7 +50,7 @@ export const POST = async (request: NextRequest) => {
   // console.log(body);
   // const result = transcriptSchema.safeParse(body);
   const result = body;
-  console.log('body', body);
+  // console.log('body', body);
   // console.log(result);
 
   // if (!result.success) {
@@ -108,7 +108,7 @@ export const POST = async (request: NextRequest) => {
   }
 
   // 4. return the transcript / close the cycle
-  console.log('new Transcript', newTranscript);
+  // console.log('new Transcript', newTranscript);
   return NextResponse.json(newTranscript);
 };
 
@@ -133,7 +133,7 @@ export const GET = async () => {
 
 export const DELETE = async (params, request: NextRequest) => {
   const transcriptId = params.transcriptId;
-  console.log(params);
+  // console.log(params);
 
   if (!transcriptId) {
     return NextResponse.json(

@@ -24,7 +24,7 @@ export default async function Page() {
 
   return (
     <div>
-      <TranscriptForm />
+      <TranscriptForm userId={session.userId} />
     </div>
   );
 }

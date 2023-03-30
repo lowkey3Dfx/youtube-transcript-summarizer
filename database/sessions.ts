@@ -52,6 +52,7 @@ export const getValidSessionByToken = cache(async (token: string) => {
   const [session] = await sql<Session[]>`
     SELECT
       sessions.id,
+      sessions.user_id,
       sessions.token,
       sessions.csrf_secret
      FROM
