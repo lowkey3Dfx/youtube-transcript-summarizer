@@ -1,10 +1,12 @@
 import { exec } from 'child_process';
 import { notFound } from 'next/navigation';
+import { getUserNotesByUserIdAndTranscriptId } from '../../../database/notes';
 import {
   getTranscriptByTranscriptId,
   getTranscripts,
 } from '../../../database/transcripts';
 import GetVideo from './GetVideo';
+import Notes from './Notes';
 import styles from './page.module.scss';
 
 type Props = {
@@ -24,11 +26,15 @@ export default async function TranscriptPage(props: Props) {
   // console.log(props);
 
   const videoId = props.params.transcriptId;
-  // console.log('Marker S', singleTranscript);
 
   if (!singleTranscript) {
     notFound();
   }
+
+  const response = await getUserNotesByUserIdAndTranscriptId(
+    props.params.transcriptId,
+  );
+  const getNotes = response.map((note) => note.savedNotes);
 
   return (
     <div>
@@ -44,7 +50,14 @@ export default async function TranscriptPage(props: Props) {
                   }}
                 />
               </div>
-              <div>Note taking feature coming soon</div>
+              <div>
+                <Notes
+                  params={{
+                    getNotes: getNotes,
+                    transcriptId: videoId,
+                  }}
+                />
+              </div>
             </div>
             <div className={styles.divOneRight}>
               <div className={styles.divOneRightOne}>

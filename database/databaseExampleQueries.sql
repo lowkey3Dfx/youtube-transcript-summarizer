@@ -38,3 +38,13 @@ VALUES(4,'8D9XnnjFGMs&t=13s','Looooooooooong TEXT','short TEXT','UCsBjURrPoezykL
 'Learn how to use AI Art and ChatGPT to Create a Website without writing a single line of code! ⭐ Check out my Design UI / UX Course called Enhance UI ⭐',
 'https://i.ytimg.com/vi/8I3NTE4cn5s/sddefault.jpg',
 'ai web designweb designaiopenaimidjourneydalleai websiteai website designai uiai user interfaceai uxuimidjourney websitewebsite aiwebsite design aiweb design aiweb design midjourneychat gptchatgptai');
+
+INSERT INTO notes
+(saved_notes, transcript_id)
+VALUES('Corridor Crew Video notes, if you see this go to bed','_9LX9HSQkWo');
+
+INSERT INTO notes
+(saved_notes, transcript_id)
+VALUES('Second note for testing','_9LX9HSQkWo');
+
+DELETE from notes  WHERE id IN (3);
