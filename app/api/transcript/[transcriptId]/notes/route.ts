@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
-import { insertNotes } from '../../../../../database/notes';
+import {
+  deleteSingleNoteById,
+  insertNotes,
+} from '../../../../../database/notes';
 
 export async function GET(request: Request) {
   // task
@@ -50,3 +53,32 @@ export const POST = async (request: NextRequest) => {
   // console.log('new Transcript', newTranscript);
   return NextResponse.json(newNote);
 };
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Record<string, string | string[]> },
+): Promise<NextResponse> {
+  const noteId = Number(params.noteId);
+
+  if (!noteId) {
+    return NextResponse.json(
+      {
+        error: 'Note id is not valid',
+      },
+      { status: 400 },
+    );
+  }
+
+  const singleNote = await deleteSingleNoteById(noteId);
+
+  if (!singleNote) {
+    return NextResponse.json(
+      {
+        error: 'Note not found',
+      },
+      { status: 404 },
+    );
+  }
+
+  return NextResponse.json({ note: singleNote });
+}

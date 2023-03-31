@@ -41,3 +41,20 @@ export const insertNotes = cache(
     return notes;
   },
 );
+
+export const deleteNotes = cache(
+  async (id: number) =>
+    sql<Notes[]>`
+    DELETE FROM notes
+    WHERE id = ${id}
+    `,
+);
+
+export const deleteSingleNoteById = cache(async (id: number) => {
+  const note = await sql<Notes[]>`
+    DELETE FROM notes
+    WHERE id = ${id}
+    RETURNING *
+    `;
+  return note;
+});

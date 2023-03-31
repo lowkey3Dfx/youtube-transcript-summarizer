@@ -1,6 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import styles from './page.module.scss';
 
 export default function Notes(props: Props) {
   const [inputValue, setInputValue] = useState<string>('');
@@ -11,7 +12,6 @@ export default function Notes(props: Props) {
   const userNotes = props.params.getNotes;
   const transcriptId = props.params.transcriptId;
   const savedNotes = inputValue;
-  console.log('marker A', savedNotes);
 
   async function postNotes() {
     try {
@@ -37,7 +37,7 @@ export default function Notes(props: Props) {
   }
 
   return (
-    <div>
+    <div className={styles.notesMainDiv}>
       <input
         value={inputValue}
         placeholder="Add a note"
@@ -48,8 +48,30 @@ export default function Notes(props: Props) {
       <div>
         {userNotes.map((note) => (
           <div key={note.id}>
-            <p>{note}</p>
-            <button>Delete Note</button>
+            <input value={note} />
+
+            <button
+              onClick={async () => {
+                const response = await fetch(
+                  `/api/transcripts/${transcriptId}/notes`,
+                  {
+                    method: 'DELETE',
+                  },
+                );
+
+                const data = await response.json();
+                console.log(data);
+
+                if (data.error) {
+                  setError(data.error);
+                  return;
+                }
+
+                // router.refresh();
+              }}
+            >
+              Delete Note
+            </button>
             <button>Edit Note</button>
           </div>
         ))}

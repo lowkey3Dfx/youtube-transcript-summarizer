@@ -67,6 +67,26 @@
         margin: 12px;
         padding: 32px;
         text-align: left;
+
+        .notesMainDiv {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border-radius: 8px;
+          padding: 4px;
+          gap: 8px;
+
+          input {
+            width: 446px;
+            height: 20px;
+            margin-top: 10px;
+            border: none;
+            outline: none;
+            background-color: rgba(72, 72, 72, 0.354);
+            border-radius: 4px;
+            padding-left: 4px;
+          }
+        }
       }
 
       .divOneRight {
